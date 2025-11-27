@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedic Horoscope</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gotu&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- WELCOME LANGUAGE MODAL -->
+    <div id="languageModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="ornament-top"></div>
+            <h2>Welcome / ಸ್ವಾಗತ</h2>
+            <p>Please select your language for the Horoscope:</p>
+            <div class="select-wrapper">
+                <select id="modalLangSelect">
+                    <option value="kn">Kannada (ಕನ್ನಡ)</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            <button id="enterSiteBtn" class="vedic-button">Enter Portal</button>
+        </div>
+    </div>
+
+    <div class="main-frame" id="mainContent" style="display:none;">
+        <header class="vedic-header">
+            <div class="lang-switcher-container">
+                <label for="formLangSelect">Language: </label>
+                <select id="formLangSelect">
+                    <option value="kn">Kannada</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            <h1>Janma Patrika</h1>
+            <p class="subtitle">Generate your Vedic Horoscope in moments</p>
+        </header>
+
+        <form id="horoscopeForm">
+            <div class="form-grid">
+                
+                <!-- 1. Name -->
+                <div class="form-group">
+                    <label for="name">Name <span class="req">*</span></label>
+                    <input type="text" id="name" name="Name" placeholder="e.g., Krishna" autocomplete="off" required>
+                    <small id="namePreview" class="kannada-preview">waiting for input...</small>
+                </div>
+
+                <!-- 2. Gender (NEW) -->
+                <div class="form-group">
+                    <label for="gender">Gender <span class="req">*</span></label>
+                    <select id="gender" name="Gender" required>
+                        <option value="" disabled selected>Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <!-- 3. Father's Name -->
+                <div class="form-group">
+                    <label for="fatherName">Father's Name <span class="req">*</span></label>
+                    <input type="text" id="fatherName" name="FatherName" placeholder="Father's Name" autocomplete="off" required>
+                    <small id="fatherNamePreview" class="kannada-preview">waiting for input...</small>
+                </div>
+
+                <!-- 4. Mother's Name -->
+                <div class="form-group">
+                    <label for="motherName">Mother's Name <span class="req">*</span></label>
+                    <input type="text" id="motherName" name="MotherName" placeholder="Mother's Name" autocomplete="off" required>
+                    <small id="motherNamePreview" class="kannada-preview">waiting for input...</small>
+                </div>
+
+                <!-- 5. Gothra -->
+                <div class="form-group">
+                    <label for="gothra">Gothra <span class="req">*</span></label>
+                    <input type="text" id="gothra" name="Gothra" placeholder="e.g., Kashyapa" autocomplete="off" required>
+                    <small id="gothraPreview" class="kannada-preview">waiting for input...</small>
+                </div>
+
+                <!-- 6. Date of Birth -->
+                <div class="form-group">
+                    <label for="dob">Date of Birth <span class="req">*</span></label>
+                    <input type="date" id="dob" name="DoB" required>
+                </div>
+
+                <!-- 7. Time of Birth -->
+                <div class="form-group">
+                    <label for="tob">Time of Birth <span class="req">*</span></label>
+                    <input type="time" id="tob" name="ToB" required>
+                </div>
+
+                <!-- 8. Place of Birth (MOVED HERE) -->
+                <div class="form-group">
+                    <label for="pob">Place of Birth <span class="req">*</span></label>
+                    <input list="placesList" type="text" id="pob" name="PoB" placeholder="Search City..." autocomplete="off" required>
+                    <small id="pobPreview" class="kannada-preview">waiting for input...</small>
+                    <datalist id="placesList"></datalist>
+                </div>
+
+                <!-- 9. Email -->
+                <div class="form-group">
+                    <label for="email">Email Address <span class="req">*</span></label>
+                    <input type="email" id="email" name="Email" placeholder="yourname@example.com" required>
+                </div>
+
+                <!-- 10. Phone -->
+                <div class="form-group">
+                    <label for="phone">Phone Number <span class="req">*</span></label>
+                    <input type="tel" id="phone" name="PhoneNumber" placeholder="+91 98765 43210" required>
+                </div>
+
+            </div> <!-- End of form-grid -->
+
+            <div class="button-container">
+                <button type="submit" id="submitButton" class="vedic-button">
+                    <span class="ornament-left">✦</span> 
+                    Generate Horoscope 
+                    <span class="ornament-right">✦</span>
+                </button>
+            </div>
+
+            <div id="formMessage" class="form-message"></div>
+        </form>
+        
+        <footer class="vedic-footer">
+            <p>&copy; 2023 Vedic Astrology Portal. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
