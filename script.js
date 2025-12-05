@@ -1,19 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     
-    // ==========================================
-    // 1. CONFIGURATION
-    // ==========================================
-    // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
+    // CONFIGURATION
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby65pDKLbXAVJ3zmCcouGowFMJHWuq5Ml7PcFcZ3pdqo3Z5n6XyR_OEhJKGW-pYApWclQ/exec';
 
-    // ==========================================
-    // 2. PLACE NAMES DATABASE
-    // ==========================================
-    // (Your existing list starts below this line)
-    
-    // ==========================================
-    // 2. PLACE NAMES DATABASE
-    // ==========================================
+    // PLACE NAMES LIST BELOW...
     const rawPlaces = `
 A LOT
 AADAMPUR
@@ -11326,72 +11316,63 @@ ZORAWARPUR
 
 `;
 
-   // ==========================================
+  // ==========================================
     // 3. PLACE NAME LOGIC
     // ==========================================
     const placesList = document.getElementById('placesList');
-    
-    // Connect list to HTML if it exists
     if (typeof rawPlaces !== 'undefined' && placesList) {
         const placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
         const fragment = document.createDocumentFragment();
-        
         placesArray.forEach(place => {
             const option = document.createElement('option');
             option.value = place;
             fragment.appendChild(option);
         });
-        
         placesList.appendChild(fragment);
     }
 
     // ==========================================
-    // 4. SWITCHING FORMS LOGIC
+    // 4. MODAL LOGIC (OPEN / CLOSE)
     // ==========================================
-    window.showForm = function(serviceType) {
-        // Elements
-        const horoForm = document.getElementById('HoroscopeForm');
-        const msgBox = document.getElementById('ConstructionMessage');
-        const initMsg = document.getElementById('InitialMessage');
-        const msgTitle = document.getElementById('constructionTitle');
-        
-        // 1. Hide Everything first
-        horoForm.style.display = 'none';
-        msgBox.style.display = 'none';
-        if(initMsg) initMsg.style.display = 'none';
-        
-        // 2. Remove Active Highlight from all buttons
-        document.querySelectorAll('.svc-btn').forEach(btn => btn.classList.remove('active'));
+    const modal = document.getElementById('ServiceModal');
+    const horoForm = document.getElementById('HoroscopeForm');
+    const msgBox = document.getElementById('ConstructionMessage');
+    const msgTitle = document.getElementById('constructionTitle');
 
-        // 3. Highlight the button that was clicked
-        // We find the button by its text content or onclick attribute matching the serviceType
-        const allBtns = document.querySelectorAll('.svc-btn');
-        allBtns.forEach(btn => {
-            if (btn.getAttribute('onclick').includes(serviceType)) {
-                btn.classList.add('active');
-            }
-        });
-
-        // 4. Show the correct Content
+    window.openModal = function(serviceType) {
+        modal.style.display = 'block'; // Show Modal
+        
         if (serviceType === 'Horoscope') {
             horoForm.style.display = 'block';
+            msgBox.style.display = 'none';
         } else {
-            // For Match Making, Muhurtha, etc.
+            horoForm.style.display = 'none';
             msgBox.style.display = 'block';
             if(msgTitle) msgTitle.innerText = serviceType;
         }
     };
 
+    window.closeModal = function() {
+        modal.style.display = 'none'; // Hide Modal
+        // Optional: Reset form on close?
+        // horoForm.reset(); 
+    };
+
+    // Close modal if clicking outside the white box
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    };
+
     // ==========================================
-    // 5. SUBMIT LOGIC (Horoscope)
+    // 5. SUBMIT LOGIC
     // ==========================================
-    const form = document.getElementById('HoroscopeForm');
-    
-    if (form) {
-        form.addEventListener('submit', e => {
+    if (horoForm) {
+        horoForm.addEventListener('submit', e => {
             e.preventDefault();
             
-            const btn = form.querySelector('button[type="submit"]');
+            const btn = horoForm.querySelector('button[type="submit"]');
             const msg = document.getElementById('statusMessage');
             
             msg.innerText = "Consulting the stars...";
@@ -11399,7 +11380,6 @@ ZORAWARPUR
             btn.disabled = true;
             btn.innerText = "Processing...";
 
-            // Collect Data
             let data = {
                 ServiceType: "Horoscope",
                 Name: document.getElementById('h_name').value,
@@ -11416,27 +11396,25 @@ ZORAWARPUR
                 Timestamp: new Date().toISOString()
             };
 
-            // Send to Google
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
             .then(response => {
-                msg.innerText = "Success! Horoscope Request Sent.";
-                msg.style.color = "green";
-                form.reset();
+                alert("Success! Horoscope Request Sent.");
+                horoForm.reset();
+                closeModal(); // CLOSE THE POPUP ON SUCCESS
             })
             .catch(error => {
-                msg.innerText = "Error: Could not connect to server.";
+                msg.innerText = "Error: Could not connect.";
                 msg.style.color = "red";
                 console.error(error);
             })
             .finally(() => {
                 btn.disabled = false;
                 btn.innerText = "Generate Horoscope";
-                setTimeout(() => { if(msg.innerText.includes("Success")) msg.innerText = ""; }, 5000);
+                msg.innerText = "";
             });
         });
     }
-
-}); 
+});
