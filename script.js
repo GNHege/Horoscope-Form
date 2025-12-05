@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
+    
     // ==========================================
-    // 1. CONFIGURATION & SELECTORS
+    // 1. CONFIGURATION
     // ==========================================
-    // Your Google Apps Script Web App URL
+    // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby65pDKLbXAVJ3zmCcouGowFMJHWuq5Ml7PcFcZ3pdqo3Z5n6XyR_OEhJKGW-pYApWclQ/exec';
 
-    const form = document.getElementById('horoscopeForm');
-    const messageDiv = document.getElementById('formMessage');
-    const submitButton = document.getElementById('submitButton');
+    // ==========================================
+    // 2. PLACE NAMES DATABASE
+    // ==========================================
+    // (Your existing list starts below this line)
     
     // ==========================================
     // 2. PLACE NAMES DATABASE
@@ -11324,239 +11326,117 @@ ZORAWARPUR
 
 `;
 
+   // ==========================================
+    // 3. PLACE NAME LOGIC
+    // ==========================================
     const placesList = document.getElementById('placesList');
-    // Check if rawPlaces has data before processing
-    if (rawPlaces && rawPlaces.length > 10) {
+    
+    // Connect list to HTML if it exists
+    if (typeof rawPlaces !== 'undefined' && placesList) {
         const placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
         const fragment = document.createDocumentFragment();
+        
         placesArray.forEach(place => {
             const option = document.createElement('option');
             option.value = place;
             fragment.appendChild(option);
         });
-        placesList.appendChild(fragment);
-
-        // RESTRICT INPUT TO DROPDOWN VALUES ONLY
-        const pobInput = document.getElementById('pob');
-        if(pobInput){
-            pobInput.addEventListener('change', function() {
-                if (this.value && !placesArray.includes(this.value)) {
-                    alert('Please select a valid location from the list or clear the field.');
-                    this.value = ''; 
-                }
-            });
-        }
-    }
-
-    // ==========================================
-    // 3. LANGUAGE & PREVIEW LOGIC
-    // ==========================================
-    let activeLanguage = 'kn'; 
-
-    const modal = document.getElementById('languageModal');
-    const enterBtn = document.getElementById('enterSiteBtn');
-    const mainContent = document.getElementById('mainContent');
-    const modalLangSelect = document.getElementById('modalLangSelect');
-    const formLangSelect = document.getElementById('formLangSelect');
-
-    // Handle Modal Enter
-    if (enterBtn) {
-        enterBtn.addEventListener('click', function() {
-            activeLanguage = modalLangSelect.value;
-            formLangSelect.value = activeLanguage;
-            modal.style.opacity = '0';
-            setTimeout(() => { 
-                modal.style.display = 'none'; 
-                mainContent.style.display = 'block'; 
-            }, 500);
-            updateAllPreviews();
-        });
-    }
-
-    // Handle Header Dropdown
-    if (formLangSelect) {
-        formLangSelect.addEventListener('change', function() {
-            activeLanguage = this.value;
-            updateAllPreviews(); 
-        });
-    }
-
-    // --- TRANSLITERATION ENGINE ---
-    const vowels = {
-        'a': 'ಅ', 'aa': 'ಆ', 'A': 'ಆ', 'i': 'ಇ', 'I': 'ಈ', 'ee': 'ಈ', 
-        'u': 'ಉ', 'U': 'ಊ', 'oo': 'ಊ', 'ru': 'ಋ', 'Ru': 'ಋ',
-        'e': 'ಎ', 'E': 'ಏ', 'ai': 'ಐ', 'o': 'ಒ', 'O': 'ಓ', 'ou': 'ಔ', 'au': 'ಔ',
-        'am': 'ಅಂ', 'ah': 'ಅಃ'
-    };
-
-    const consonants = {
-        'k': 'ಕ್', 'K': 'ಕ್', 'kh': 'ಖ್', 'Kh': 'ಖ್', 'g': 'ಗ್', 'G': 'ಗ್', 'gh': 'ಘ್', 'Gh': 'ಘ್', 'ng': 'ಙ್',
-        'c': 'ಚ್', 'ch': 'ಚ್', 'C': 'ಚ್', 'Ch': 'ಛ್', 'chh': 'ಛ್', 'j': 'ಜ್', 'J': 'ಜ್', 'jh': 'ಝ್', 'ny': 'ಞ್',
-        'T': 'ಟ್', 'Th': 'ಠ್', 'D': 'ಡ್', 'Dh': 'ಢ್', 'N': 'ಣ್', 
-        't': 'ತ್', 'th': 'ತ್', 'd': 'ದ್', 'dh': 'ದ್', 'n': 'ನ್',
-        'p': 'ಪ್', 'P': 'ಪ್', 'f': 'ಫ್', 'ph': 'ಫ್', 'b': 'ಬ್', 'B': 'ಬ್', 'bh': 'ಭ್', 'm': 'ಮ್',
-        'y': 'ಯ್', 'Y': 'ಯ್', 'r': 'ರ್', 'R': 'ರ್', 'l': 'ಲ್', 'L': 'ಳ್', 'v': 'ವ್', 'w': 'ವ್',
-        's': 'ಸ್', 'S': 'ಶ್', 'sh': 'ಶ್', 'Sh': 'ಷ್', 'sH': 'ಷ್', 'h': 'ಹ್', 'H': 'ಹ್',
-        'x': 'ಕ್ಷ್', 'ks': 'ಕ್ಷ್', 'ksh': 'ಕ್ಷ್', 'gn': 'ಜ್ಞ್', 'jn': 'ಜ್ಞ್', 'dny': 'ಜ್ಞ್'
-    };
-
-    const matras = {
-        'a': '', 'aa': 'ಾ', 'A': 'ಾ', 'i': 'ಿ', 'I': 'ೀ', 'ee': 'ೀ',
-        'u': 'ು', 'U': 'ೂ', 'oo': 'ೂ', 'ru': 'ೃ', 'Ru': 'ೃ',
-        'e': 'ೆ', 'E': 'ೇ', 'ai': 'ೈ', 'o': 'ೊ', 'O': 'ೋ',
-        'ou': 'ೌ', 'au': 'ೌ', 'am': 'ಂ', 'ah': 'ಃ'
-    };
-
-    function transliterate(text, lang) {
-        if (lang !== 'kn' || !text) return text;
-        let result = "";
-        let i = 0;
-        while (i < text.length) {
-            let char = text[i];
-            let nextChar = text[i + 1] || "";
-            let nextNextChar = text[i + 2] || "";
-            
-            // 1. Triple Consonant 
-            let triple = char + nextChar + nextNextChar;
-            if (consonants[triple]) { 
-                let [append, skip] = getMatra(consonants[triple], text, i + 3); 
-                result += append; 
-                i += 3 + skip; 
-                continue; 
-            }
-            
-            // 2. Double Consonant
-            let double = char + nextChar;
-            if (consonants[double]) { 
-                let [append, skip] = getMatra(consonants[double], text, i + 2); 
-                result += append; 
-                i += 2 + skip; 
-                continue; 
-            }
-            // 3. Double Vowel
-            if (vowels[double]) { result += vowels[double]; i += 2; continue; }
-            
-            // 4. Single Consonant
-            if (consonants[char]) { 
-                let [append, skip] = getMatra(consonants[char], text, i + 1); 
-                result += append; 
-                i += 1 + skip; 
-                continue; 
-            }
-            // 5. Single Vowel
-            if (vowels[char]) { result += vowels[char]; i += 1; continue; }
-            
-            // 6. Other
-            result += char; i++;
-        }
-        return result;
-    }
-
-    function getMatra(baseConsonant, fullText, idx) {
-        let v1 = fullText[idx] || "";
-        let v2 = fullText[idx + 1] || "";
-        let doubleV = v1 + v2;
         
-        if (matras[doubleV] !== undefined) {
-            return [baseConsonant.slice(0, -1) + matras[doubleV], 2];
-        }
-        if (matras[v1] !== undefined) {
-            let suffix = matras[v1];
-            if (suffix === '') return [baseConsonant.slice(0, -1), 1];
-            return [baseConsonant.slice(0, -1) + suffix, 1];
-        }
-        return [baseConsonant, 0];
+        placesList.appendChild(fragment);
     }
 
-    // Input Listeners
-    const textFields = ['name', 'gothra', 'fatherName', 'motherName', 'pob'];
-    textFields.forEach(fieldId => {
-        const inputEl = document.getElementById(fieldId);
-        const previewEl = document.getElementById(fieldId + 'Preview');
-        if (inputEl) {
-            inputEl.addEventListener('input', function() {
-                const text = this.value;
-                previewEl.textContent = (text.trim() === "") ? "waiting for input..." : transliterate(text, activeLanguage);
-            });
-        }
-    });
+    // ==========================================
+    // 4. SWITCHING FORMS LOGIC
+    // ==========================================
+    window.showForm = function(serviceType) {
+        // Elements
+        const horoForm = document.getElementById('HoroscopeForm');
+        const msgBox = document.getElementById('ConstructionMessage');
+        const initMsg = document.getElementById('InitialMessage');
+        const msgTitle = document.getElementById('constructionTitle');
+        
+        // 1. Hide Everything first
+        horoForm.style.display = 'none';
+        msgBox.style.display = 'none';
+        if(initMsg) initMsg.style.display = 'none';
+        
+        // 2. Remove Active Highlight from all buttons
+        document.querySelectorAll('.svc-btn').forEach(btn => btn.classList.remove('active'));
 
-    function updateAllPreviews() {
-        textFields.forEach(fieldId => {
-            const inputEl = document.getElementById(fieldId);
-            if(inputEl && inputEl.value) inputEl.dispatchEvent(new Event('input'));
+        // 3. Highlight the button that was clicked
+        // We find the button by its text content or onclick attribute matching the serviceType
+        const allBtns = document.querySelectorAll('.svc-btn');
+        allBtns.forEach(btn => {
+            if (btn.getAttribute('onclick').includes(serviceType)) {
+                btn.classList.add('active');
+            }
         });
-    }
+
+        // 4. Show the correct Content
+        if (serviceType === 'Horoscope') {
+            horoForm.style.display = 'block';
+        } else {
+            // For Match Making, Muhurtha, etc.
+            msgBox.style.display = 'block';
+            if(msgTitle) msgTitle.innerText = serviceType;
+        }
+    };
 
     // ==========================================
-    // 4. GOOGLE SHEETS SUBMISSION (Combined & Fixed)
+    // 5. SUBMIT LOGIC (Horoscope)
     // ==========================================
+    const form = document.getElementById('HoroscopeForm');
+    
     if (form) {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault(); 
+        form.addEventListener('submit', e => {
+            e.preventDefault();
             
-            // UI Feedback
-            messageDiv.textContent = 'Consulting the stars...';
-            messageDiv.style.color = '#8B4513';
-            submitButton.disabled = true;
-            submitButton.innerHTML = 'Processing...';
+            const btn = form.querySelector('button[type="submit"]');
+            const msg = document.getElementById('statusMessage');
+            
+            msg.innerText = "Consulting the stars...";
+            msg.style.color = "blue";
+            btn.disabled = true;
+            btn.innerText = "Processing...";
 
-            // --- DATA PREPARATION ---
-            // We specifically map English inputs to English Keys
-            // And Preview (Transliterated) text to Kannada Keys
-            
+            // Collect Data
             let data = {
-                // STANDARD FIELDS
-                Name: document.getElementById('name').value,
-                Gender: document.getElementById('gender').value,
-                FatherName: document.getElementById('fatherName').value,
-                MotherName: document.getElementById('motherName').value,
-                Gothra: document.getElementById('gothra').value,
-                DoB: document.getElementById('dob').value,
-                ToB: document.getElementById('tob').value,
-                PoB: document.getElementById('pob').value,
-                
-                // KANNADA FIELDS (Grab from Previews if Language is KN, else use English as fallback)
-                NameKan: (activeLanguage === 'kn') ? document.getElementById('namePreview').textContent : document.getElementById('name').value,
-                FatherKan: (activeLanguage === 'kn') ? document.getElementById('fatherNamePreview').textContent : document.getElementById('fatherName').value,
-                MotherKan: (activeLanguage === 'kn') ? document.getElementById('motherNamePreview').textContent : document.getElementById('motherName').value,
-                GothraKan: (activeLanguage === 'kn') ? document.getElementById('gothraPreview').textContent : document.getElementById('gothra').value,
-                PlaceKan: (activeLanguage === 'kn') ? document.getElementById('pobPreview').textContent : document.getElementById('pob').value,
-
-                // CONTACT & META
-                Email: document.getElementById('email').value,
-                PhoneNumber: document.getElementById('phone').value,
-                LanguagePreference: activeLanguage,
+                ServiceType: "Horoscope",
+                Name: document.getElementById('h_name').value,
+                Gender: document.getElementById('h_gender').value,
+                FatherName: document.getElementById('h_father').value,
+                MotherName: document.getElementById('h_mother').value,
+                Gothra: document.getElementById('h_gotra').value,
+                DoB: document.getElementById('h_dob').value,
+                ToB: document.getElementById('h_tob').value,
+                PoB: document.getElementById('h_place').value,
+                Email: document.getElementById('h_email').value,
+                PhoneNumber: document.getElementById('h_phone').value,
+                LanguagePreference: document.getElementById('globalLang').value,
                 Timestamp: new Date().toISOString()
             };
 
-            console.log("Sending Data to Google:", data);
-
-            // --- SEND TO GOOGLE APPS SCRIPT ---
+            // Send to Google
             fetch(SCRIPT_URL, {
                 method: 'POST',
-                // We use standard CORS. If this fails, the Google Script might need 'no-cors'
-                // But 'no-cors' hides errors. Try standard first.
                 body: JSON.stringify(data)
             })
             .then(response => {
-                // If response is opaque (no-cors), we assume success if no error thrown
-                messageDiv.textContent = 'Success! Your details have been submitted to the Astrologer.';
-                messageDiv.style.color = 'green';
+                msg.innerText = "Success! Horoscope Request Sent.";
+                msg.style.color = "green";
                 form.reset();
-                // Reset Previews
-                document.querySelectorAll('.kannada-preview').forEach(el => el.textContent = 'waiting for input...');
             })
             .catch(error => {
-                console.error('Error:', error);
-                // Fallback message even if error (sometimes Google Scripts return generic errors on success)
-                messageDiv.textContent = 'Submitted! Please check your email shortly.'; 
-                messageDiv.style.color = 'green'; 
+                msg.innerText = "Error: Could not connect to server.";
+                msg.style.color = "red";
+                console.error(error);
             })
             .finally(() => {
-                submitButton.disabled = false;
-                submitButton.innerHTML = '<span class="ornament-left">✦</span> Generate Horoscope <span class="ornament-right">✦</span>';
+                btn.disabled = false;
+                btn.innerText = "Generate Horoscope";
+                setTimeout(() => { if(msg.innerText.includes("Success")) msg.innerText = ""; }, 5000);
             });
         });
     }
-});
+
+}); 
