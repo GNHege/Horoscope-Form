@@ -36,11 +36,13 @@
             </ul>
         </aside>
 
-        <!-- CENTER: INFO (Pushed to Top on Mobile) -->
+        <!-- CENTER: INFO -->
         <main class="center-panel">
             <div class="center-content">
+                <!-- Replace with your actual logo URL -->
                 <img src="https://via.placeholder.com/100" alt="Logo" class="main-logo">
                 <h2>Welcome to Divine Guidance</h2>
+                <p>Accurate predictions based on ancient wisdom.</p>
                 <div class="contact-card">
                     <p>📧 astroconsultjyotisha@gmail.com</p>
                     <p>📞 +91 98765 43210</p>
@@ -70,9 +72,12 @@
             <!-- Close Button (X) -->
             <span class="close-modal" onclick="closeModal()">&times;</span>
 
+            <!-- SHARED PLACES LIST -->
+            <datalist id="placesList"></datalist>
+
             <!-- 1. HOROSCOPE FORM -->
             <form id="HoroscopeForm" class="astro-form" style="display:none;">
-                <h4>Janma Patrika</h4>
+                <h4 style="text-align:center; color:#8B4513;">Janma Patrika</h4>
                 <div class="form-group">
                     <input type="text" id="h_name" placeholder="Name" required>
                 </div>
@@ -86,14 +91,13 @@
                 <input type="text" id="h_mother" placeholder="Mother's Name">
                 <input type="text" id="h_gotra" placeholder="Gotra">
                 
-                <label>Date of Birth:</label>
+                <label style="font-size:12px; font-weight:bold;">Date of Birth:</label>
                 <input type="date" id="h_dob" required>
                 
-                <label>Time of Birth:</label>
+                <label style="font-size:12px; font-weight:bold;">Time of Birth:</label>
                 <input type="time" id="h_tob" required>
                 
                 <input type="text" id="h_place" list="placesList" placeholder="Place of Birth" required>
-                <datalist id="placesList"></datalist>
                 
                 <hr>
                 <input type="email" id="h_email" placeholder="Email Address" required>
@@ -103,7 +107,44 @@
                 <div id="statusMessage" class="status-msg"></div>
             </form>
 
-            <!-- 2. UNDER CONSTRUCTION MESSAGE -->
+            <!-- 2. MATCH MAKING FORM -->
+            <form id="MatchMakingForm" class="astro-form" style="display:none;">
+                <h4 style="text-align:center; color:#8B4513;">Match Making</h4>
+                
+                <div class="split-container">
+                    <!-- GROOM -->
+                    <div class="split-box groom-box">
+                        <h5>👦 Groom</h5>
+                        <input type="text" id="m_g_name" placeholder="Name" required>
+                        <label style="font-size:10px;">DOB:</label>
+                        <input type="date" id="m_g_dob" required>
+                        <label style="font-size:10px;">Time:</label>
+                        <input type="time" id="m_g_tob" required>
+                        <input type="text" id="m_g_place" list="placesList" placeholder="Place" required>
+                    </div>
+
+                    <!-- BRIDE -->
+                    <div class="split-box bride-box">
+                        <h5>👧 Bride</h5>
+                        <input type="text" id="m_b_name" placeholder="Name" required>
+                        <label style="font-size:10px;">DOB:</label>
+                        <input type="date" id="m_b_dob" required>
+                        <label style="font-size:10px;">Time:</label>
+                        <input type="time" id="m_b_tob" required>
+                        <input type="text" id="m_b_place" list="placesList" placeholder="Place" required>
+                    </div>
+                </div>
+
+                <hr>
+                <label>Contact Details:</label>
+                <input type="email" id="m_email" placeholder="Email Address" required>
+                <input type="tel" id="m_phone" placeholder="Mobile Number">
+
+                <button type="submit" class="submit-btn">Check Match</button>
+                <div id="matchStatusMessage" class="status-msg"></div>
+            </form>
+
+            <!-- 3. UNDER CONSTRUCTION MESSAGE -->
             <div id="ConstructionMessage" class="construction-box" style="display:none;">
                 <div style="font-size: 50px;">🚧</div>
                 <h4 id="constructionTitle">Service</h4>

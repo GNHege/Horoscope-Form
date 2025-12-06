@@ -11319,7 +11319,7 @@ ZORAWARPUR
   // ==========================================
     // 3. PLACE NAME LOGIC
     // ==========================================
-    const placesList = document.getElementById('placesList');
+     const placesList = document.getElementById('placesList');
     if (typeof rawPlaces !== 'undefined' && placesList) {
         const placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
         const fragment = document.createDocumentFragment();
@@ -11335,30 +11335,42 @@ ZORAWARPUR
     // 4. MODAL LOGIC (OPEN / CLOSE)
     // ==========================================
     const modal = document.getElementById('ServiceModal');
-    const horoForm = document.getElementById('HoroscopeForm');
-    const msgBox = document.getElementById('ConstructionMessage');
-    const msgTitle = document.getElementById('constructionTitle');
 
+    // This function acts as the bridge between HTML onclick and JS
     window.openModal = function(serviceType) {
-        modal.style.display = 'block'; // Show Modal
         
+        // 1. Show the Modal Overlay
+        modal.style.display = 'flex'; // Uses Flex to center content
+
+        // 2. Identify inner elements
+        const horoForm = document.getElementById('HoroscopeForm');
+        const matchForm = document.getElementById('MatchMakingForm');
+        const msgBox = document.getElementById('ConstructionMessage');
+        const msgTitle = document.getElementById('constructionTitle');
+
+        // 3. Hide everything first
+        horoForm.style.display = 'none';
+        matchForm.style.display = 'none';
+        msgBox.style.display = 'none';
+
+        // 4. Logic to show the right one
         if (serviceType === 'Horoscope') {
             horoForm.style.display = 'block';
-            msgBox.style.display = 'none';
+        } else if (serviceType === 'Match Making') {
+            matchForm.style.display = 'block';
         } else {
-            horoForm.style.display = 'none';
             msgBox.style.display = 'block';
             if(msgTitle) msgTitle.innerText = serviceType;
         }
     };
 
     window.closeModal = function() {
-        modal.style.display = 'none'; // Hide Modal
-        // Optional: Reset form on close?
-        // horoForm.reset(); 
+        modal.style.display = 'none';
+        // Optional: Clear forms when closing?
+        // document.getElementById('HoroscopeForm').reset();
     };
 
-    // Close modal if clicking outside the white box
+    // Close modal if user clicks outside the white box
     window.onclick = function(event) {
         if (event.target == modal) {
             closeModal();
@@ -11366,8 +11378,9 @@ ZORAWARPUR
     };
 
     // ==========================================
-    // 5. SUBMIT LOGIC
+    // 5. SUBMIT LOGIC (HOROSCOPE)
     // ==========================================
+    const horoForm = document.getElementById('HoroscopeForm');
     if (horoForm) {
         horoForm.addEventListener('submit', e => {
             e.preventDefault();
@@ -11401,18 +11414,74 @@ ZORAWARPUR
                 body: JSON.stringify(data)
             })
             .then(response => {
-                alert("Success! Horoscope Request Sent.");
+                alert("Success! Horoscope Request Sent to Astrologer.");
                 horoForm.reset();
-                closeModal(); // CLOSE THE POPUP ON SUCCESS
+                closeModal();
             })
             .catch(error => {
-                msg.innerText = "Error: Could not connect.";
+                msg.innerText = "Error: Connection Failed.";
                 msg.style.color = "red";
                 console.error(error);
             })
             .finally(() => {
                 btn.disabled = false;
                 btn.innerText = "Generate Horoscope";
+                msg.innerText = "";
+            });
+        });
+    }
+
+    // ==========================================
+    // 6. SUBMIT LOGIC (MATCH MAKING)
+    // ==========================================
+    const matchForm = document.getElementById('MatchMakingForm');
+    if (matchForm) {
+        matchForm.addEventListener('submit', e => {
+            e.preventDefault();
+            
+            const btn = matchForm.querySelector('button[type="submit"]');
+            const msg = document.getElementById('matchStatusMessage');
+            
+            msg.innerText = "Analyzing compatibility...";
+            msg.style.color = "blue";
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+
+            let data = {
+                ServiceType: "MatchMaking",
+                GroomName: document.getElementById('m_g_name').value,
+                GroomDoB: document.getElementById('m_g_dob').value,
+                GroomToB: document.getElementById('m_g_tob').value,
+                GroomPlace: document.getElementById('m_g_place').value,
+                
+                BrideName: document.getElementById('m_b_name').value,
+                BrideDoB: document.getElementById('m_b_dob').value,
+                BrideToB: document.getElementById('m_b_tob').value,
+                BridePlace: document.getElementById('m_b_place').value,
+
+                Email: document.getElementById('m_email').value,
+                PhoneNumber: document.getElementById('m_phone').value,
+                LanguagePreference: document.getElementById('globalLang').value,
+                Timestamp: new Date().toISOString()
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                alert("Success! Match Making Request Sent.");
+                matchForm.reset();
+                closeModal();
+            })
+            .catch(error => {
+                msg.innerText = "Error: Connection Failed.";
+                msg.style.color = "red";
+                console.error(error);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerText = "Check Match Compatibility";
                 msg.innerText = "";
             });
         });

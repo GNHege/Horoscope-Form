@@ -9,72 +9,93 @@ body { margin: 0; padding: 0; background: #f4f1ea; height: 100vh; display: flex;
 
 /* Panels */
 .left-panel { width: 20%; background: #e8e0d5; padding: 20px; border-right: 1px solid #ccc; overflow-y: auto; }
-.center-panel { width: 40%; padding: 20px; text-align: center; display: flex; align-items: center; justify-content: center; background: #fff; overflow-y: auto; }
+.center-panel { width: 40%; padding: 20px; text-align: center; display: flex; align-items: center; justify-content: center; background: #fff; overflow-y: auto; flex-direction: column; }
 .right-panel { width: 40%; padding: 20px; background: #fdfdfd; border-left: 1px solid #ccc; overflow-y: auto; }
 
-/* Buttons Grid */
+/* Buttons Grid Frame */
+.button-grid-frame {
+    border: 4px double #8B4513; 
+    padding: 20px; 
+    background: #fffaf0; 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
 .buttons-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 Columns */
+    grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    margin-top: 10px;
+    margin-top: 20px;
 }
+
 .big-btn {
-    padding: 20px 10px;
+    padding: 25px 10px;
     background: #8B4513; color: white;
     border: none; border-radius: 8px;
     font-size: 16px; font-weight: bold;
-    cursor: pointer; transition: 0.3s;
+    cursor: pointer; transition: 0.2s;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
-.big-btn:active { transform: scale(0.95); }
+.big-btn:hover { background: #6b360d; transform: translateY(-2px); }
+.big-btn:active { transform: scale(0.98); }
 
-/* Knowledge Bank Links */
+/* Article List */
 .article-list { list-style: none; padding: 0; }
 .article-list li a { display: block; padding: 12px; color: #5c4033; text-decoration: none; border-bottom: 1px solid #dcc; }
+.article-list li a:hover { background: #fff; }
 
-/* --- MODAL POPUP STYLES --- */
+/* --- MODAL POPUP --- */
 .modal-overlay {
-    display: none; /* Hidden by default */
+    display: none; 
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.7); 
     z-index: 1000;
+    justify-content: center;
+    align-items: center;
 }
+
 .modal-content {
     background-color: #fff;
-    margin: 5% auto; /* 5% from top */
     padding: 20px;
-    border: 1px solid #888;
-    width: 90%; max-width: 500px;
     border-radius: 10px;
-    position: relative;
-    max-height: 90vh; /* Scroll if form is long */
+    width: 90%; max-width: 500px;
+    max-height: 90vh;
     overflow-y: auto;
-    animation: slideDown 0.4s;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideDown 0.3s ease-out;
 }
-@keyframes slideDown { from {top: -100px; opacity: 0;} to {top: 0; opacity: 1;} }
+
+@keyframes slideDown { from {opacity: 0; transform: translateY(-50px);} to {opacity: 1; transform: translateY(0);} }
 
 .close-modal {
-    color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;
+    position: absolute; top: 10px; right: 20px;
+    color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer;
 }
-.close-modal:hover { color: black; }
+.close-modal:hover { color: red; }
 
-/* Form Styles inside Modal */
+/* Form Styles */
 .astro-form input, .astro-form select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
 .submit-btn { width: 100%; padding: 12px; background: #28a745; color: white; border: none; font-size: 18px; cursor: pointer; border-radius: 4px; margin-top: 10px; }
+.submit-btn:hover { background: #218838; }
 .ok-btn { padding: 10px 30px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
 .construction-box { text-align: center; padding: 40px 10px; }
+.status-msg { text-align: center; font-weight: bold; margin-top: 10px; }
 
-/* --- MOBILE RESPONSIVENESS --- */
+/* Match Making Layout */
+.split-container { display: flex; gap: 10px; margin-bottom: 15px; }
+.split-box { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #fdfdfd; }
+.groom-box { border-top: 3px solid #007bff; }
+.bride-box { border-top: 3px solid #e83e8c; }
+.split-box h5 { text-align: center; margin: 0 0 10px 0; }
+
+/* Mobile */
 @media (max-width: 768px) {
     .main-container { flex-direction: column; overflow-y: auto; }
     .left-panel, .center-panel, .right-panel { width: 100%; border: none; height: auto; padding: 15px; }
-    
-    /* REORDERING FOR MOBILE */
-    .center-panel { order: 1; border-bottom: 5px solid #8B4513; background: #fffaf0;} /* Logo First */
-    .right-panel { order: 2; } /* Buttons Second */
-    .left-panel { order: 3; } /* Articles Last */
-
-    .buttons-grid { grid-template-columns: 1fr; } /* 1 Column buttons on mobile */
-    .modal-content { margin: 10% auto; width: 95%; }
+    .center-panel { order: 1; border-bottom: 5px solid #8B4513; }
+    .right-panel { order: 2; }
+    .left-panel { order: 3; }
+    .buttons-grid { grid-template-columns: 1fr; }
+    .split-container { flex-direction: column; }
 }
