@@ -11316,18 +11316,22 @@ ZORAWARPUR
 
 `;
 
-  // ==========================================
+ // ==========================================
     // 3. PLACE NAME LOGIC
     // ==========================================
-     const placesList = document.getElementById('placesList');
+    const placesList = document.getElementById('placesList');
+    
+    // Only run if rawPlaces is defined and not empty
     if (typeof rawPlaces !== 'undefined' && placesList) {
         const placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
         const fragment = document.createDocumentFragment();
+        
         placesArray.forEach(place => {
             const option = document.createElement('option');
             option.value = place;
             fragment.appendChild(option);
         });
+        
         placesList.appendChild(fragment);
     }
 
@@ -11336,11 +11340,9 @@ ZORAWARPUR
     // ==========================================
     const modal = document.getElementById('ServiceModal');
 
-    // This function acts as the bridge between HTML onclick and JS
     window.openModal = function(serviceType) {
-        
         // 1. Show the Modal Overlay
-        modal.style.display = 'flex'; // Uses Flex to center content
+        modal.style.display = 'flex'; 
 
         // 2. Identify inner elements
         const horoForm = document.getElementById('HoroscopeForm');
@@ -11366,8 +11368,6 @@ ZORAWARPUR
 
     window.closeModal = function() {
         modal.style.display = 'none';
-        // Optional: Clear forms when closing?
-        // document.getElementById('HoroscopeForm').reset();
     };
 
     // Close modal if user clicks outside the white box
@@ -11381,6 +11381,7 @@ ZORAWARPUR
     // 5. SUBMIT LOGIC (HOROSCOPE)
     // ==========================================
     const horoForm = document.getElementById('HoroscopeForm');
+    
     if (horoForm) {
         horoForm.addEventListener('submit', e => {
             e.preventDefault();
@@ -11388,12 +11389,13 @@ ZORAWARPUR
             const btn = horoForm.querySelector('button[type="submit"]');
             const msg = document.getElementById('statusMessage');
             
-            msg.innerText = "Consulting the stars...";
+            msg.innerText = "Verifying Access Code...";
             msg.style.color = "blue";
             btn.disabled = true;
             btn.innerText = "Processing...";
 
             let data = {
+                UserPassword: document.getElementById('h_password').value, // PASSWORD CHECK
                 ServiceType: "Horoscope",
                 Name: document.getElementById('h_name').value,
                 Gender: document.getElementById('h_gender').value,
@@ -11413,10 +11415,18 @@ ZORAWARPUR
                 method: 'POST',
                 body: JSON.stringify(data)
             })
-            .then(response => {
-                alert("Success! Horoscope Request Sent to Astrologer.");
-                horoForm.reset();
-                closeModal();
+            .then(response => response.json()) // Parse response from Google
+            .then(responseObject => {
+                if (responseObject.result === "success") {
+                    alert("Success! Horoscope Request Sent to Astrologer.");
+                    horoForm.reset();
+                    closeModal();
+                } else {
+                    // This handles WRONG PASSWORD
+                    alert("ERROR: " + responseObject.error); 
+                    msg.innerText = responseObject.error;
+                    msg.style.color = "red";
+                }
             })
             .catch(error => {
                 msg.innerText = "Error: Connection Failed.";
@@ -11426,7 +11436,6 @@ ZORAWARPUR
             .finally(() => {
                 btn.disabled = false;
                 btn.innerText = "Generate Horoscope";
-                msg.innerText = "";
             });
         });
     }
@@ -11435,6 +11444,7 @@ ZORAWARPUR
     // 6. SUBMIT LOGIC (MATCH MAKING)
     // ==========================================
     const matchForm = document.getElementById('MatchMakingForm');
+    
     if (matchForm) {
         matchForm.addEventListener('submit', e => {
             e.preventDefault();
@@ -11442,12 +11452,13 @@ ZORAWARPUR
             const btn = matchForm.querySelector('button[type="submit"]');
             const msg = document.getElementById('matchStatusMessage');
             
-            msg.innerText = "Analyzing compatibility...";
+            msg.innerText = "Verifying Access Code...";
             msg.style.color = "blue";
             btn.disabled = true;
             btn.innerText = "Processing...";
 
             let data = {
+                UserPassword: document.getElementById('m_password').value, // PASSWORD CHECK
                 ServiceType: "MatchMaking",
                 GroomName: document.getElementById('m_g_name').value,
                 GroomDoB: document.getElementById('m_g_dob').value,
@@ -11469,10 +11480,18 @@ ZORAWARPUR
                 method: 'POST',
                 body: JSON.stringify(data)
             })
-            .then(response => {
-                alert("Success! Match Making Request Sent.");
-                matchForm.reset();
-                closeModal();
+            .then(response => response.json()) // Parse response from Google
+            .then(responseObject => {
+                if (responseObject.result === "success") {
+                    alert("Success! Match Making Request Sent.");
+                    matchForm.reset();
+                    closeModal();
+                } else {
+                    // This handles WRONG PASSWORD
+                    alert("ERROR: " + responseObject.error);
+                    msg.innerText = responseObject.error;
+                    msg.style.color = "red";
+                }
             })
             .catch(error => {
                 msg.innerText = "Error: Connection Failed.";
@@ -11482,7 +11501,6 @@ ZORAWARPUR
             .finally(() => {
                 btn.disabled = false;
                 btn.innerText = "Check Match Compatibility";
-                msg.innerText = "";
             });
         });
     }

@@ -99,13 +99,20 @@
                 
                 <input type="text" id="h_place" list="placesList" placeholder="Place of Birth" required>
                 
-                <hr>
-                <input type="email" id="h_email" placeholder="Email Address" required>
-                <input type="tel" id="h_phone" placeholder="Mobile Number">
-                
-                <button type="submit" class="submit-btn">Generate Horoscope</button>
-                <div id="statusMessage" class="status-msg"></div>
-            </form>
+               <!-- Inside Horoscope Form -->
+    <hr>
+    <input type="email" id="h_email" placeholder="Email Address" required>
+    <input type="tel" id="h_phone" placeholder="Mobile Number">
+    
+    <!-- PASTE THE PASSWORD BOX HERE -->
+    <div class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-bottom: 10px;">
+        <label style="color: red; font-weight: bold;">Enter Access Code:</label>
+        <input type="text" id="h_password" placeholder="Ask Astrologer for Code" required>
+    </div>
+
+    <button type="submit" class="submit-btn">Generate Horoscope</button>
+    <div id="statusMessage" class="status-msg"></div>
+</form>
 
             <!-- 2. MATCH MAKING FORM -->
             <form id="MatchMakingForm" class="astro-form" style="display:none;">
@@ -135,10 +142,16 @@
                     </div>
                 </div>
 
-                <hr>
+               <hr>
                 <label>Contact Details:</label>
                 <input type="email" id="m_email" placeholder="Email Address" required>
                 <input type="tel" id="m_phone" placeholder="Mobile Number">
+
+                <!-- ADDED ACCESS CODE FIELD HERE -->
+                <div class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-top: 10px; margin-bottom: 10px;">
+                    <label style="color: red; font-weight: bold;">Enter Access Code:</label>
+                    <input type="text" id="m_password" placeholder="Ask Astrologer for Code" required>
+                </div>
 
                 <button type="submit" class="submit-btn">Check Match</button>
                 <div id="matchStatusMessage" class="status-msg"></div>
