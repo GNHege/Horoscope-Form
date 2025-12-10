@@ -12,7 +12,7 @@
     <div class="top-bar">
         <div class="logo-area">🕉️ VEDIC ASTRO</div>
         <div class="lang-area">
-            <label>Language:</label>
+            <label>UI Language:</label>
             <select id="globalLang">
                 <option value="en">English</option>
                 <option value="kn">Kannada</option>
@@ -75,9 +75,24 @@
             <!-- SHARED PLACES LIST -->
             <datalist id="placesList"></datalist>
 
-            <!-- 1. HOROSCOPE FORM -->
+            <!-- ========================================= -->
+            <!-- 1. HOROSCOPE FORM                         -->
+            <!-- ========================================= -->
             <form id="HoroscopeForm" class="astro-form" style="display:none;">
                 <h4 style="text-align:center; color:#8B4513;">Janma Patrika</h4>
+                
+                <!-- NEW REPORT LANGUAGE SELECTION -->
+                <div class="form-group" style="background-color: #f0f8ff; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px;">
+                    <label style="font-weight:bold; color:#000;">Select Report Language:</label>
+                    <select id="h_report_lang" required style="font-weight:bold;">
+                        <option value="kn">Kannada (ಕನ್ನಡ)</option>
+                        <option value="hi">Hindi (हिंदी)</option>
+                        <!-- Future languages disabled for now -->
+                        <option value="te" disabled>Telugu (Coming Soon)</option>
+                        <option value="ta" disabled>Tamil (Coming Soon)</option>
+                    </select>
+                </div>
+
                 <div class="form-group">
                     <input type="text" id="h_name" placeholder="Name" required>
                 </div>
@@ -99,22 +114,23 @@
                 
                 <input type="text" id="h_place" list="placesList" placeholder="Place of Birth" required>
                 
-               <!-- Inside Horoscope Form -->
-    <hr>
-    <input type="email" id="h_email" placeholder="Email Address" required>
-    <input type="tel" id="h_phone" placeholder="Mobile Number">
-    
-    <!-- PASTE THE PASSWORD BOX HERE -->
-    <div class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-bottom: 10px;">
-        <label style="color: red; font-weight: bold;">Enter Access Code:</label>
-        <input type="text" id="h_password" placeholder="Ask Astrologer for Code" required>
-    </div>
+                <hr>
+                <input type="email" id="h_email" placeholder="Email Address" required>
+                <input type="tel" id="h_phone" placeholder="Mobile Number">
+                
+                <!-- ACCESS CODE FIELD -->
+                <div class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-bottom: 10px;">
+                    <label style="color: red; font-weight: bold;">Enter Access Code:</label>
+                    <input type="text" id="h_password" placeholder="Ask Astrologer for Code" required>
+                </div>
 
-    <button type="submit" class="submit-btn">Generate Horoscope</button>
-    <div id="statusMessage" class="status-msg"></div>
-</form>
+                <button type="submit" class="submit-btn">Generate Horoscope</button>
+                <div id="statusMessage" class="status-msg"></div>
+            </form>
 
-            <!-- 2. MATCH MAKING FORM -->
+            <!-- ========================================= -->
+            <!-- 2. MATCH MAKING FORM                      -->
+            <!-- ========================================= -->
             <form id="MatchMakingForm" class="astro-form" style="display:none;">
                 <h4 style="text-align:center; color:#8B4513;">Match Making</h4>
                 
@@ -142,12 +158,12 @@
                     </div>
                 </div>
 
-               <hr>
+                <hr>
                 <label>Contact Details:</label>
                 <input type="email" id="m_email" placeholder="Email Address" required>
                 <input type="tel" id="m_phone" placeholder="Mobile Number">
 
-                <!-- ADDED ACCESS CODE FIELD HERE -->
+                <!-- ACCESS CODE FIELD -->
                 <div class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-top: 10px; margin-bottom: 10px;">
                     <label style="color: red; font-weight: bold;">Enter Access Code:</label>
                     <input type="text" id="m_password" placeholder="Ask Astrologer for Code" required>

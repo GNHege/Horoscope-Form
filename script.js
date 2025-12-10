@@ -11378,6 +11378,7 @@ ZORAWARPUR
     };
 
     // ==========================================
+  // ==========================================
     // 5. SUBMIT LOGIC (HOROSCOPE)
     // ==========================================
     const horoForm = document.getElementById('HoroscopeForm');
@@ -11395,8 +11396,13 @@ ZORAWARPUR
             btn.innerText = "Processing...";
 
             let data = {
-                UserPassword: document.getElementById('h_password').value, // PASSWORD CHECK
+                UserPassword: document.getElementById('h_password').value, 
                 ServiceType: "Horoscope",
+                
+                // *** THIS IS THE NEW LINE YOU NEED ***
+                ReportLanguage: document.getElementById('h_report_lang').value, 
+                // *************************************
+
                 Name: document.getElementById('h_name').value,
                 Gender: document.getElementById('h_gender').value,
                 FatherName: document.getElementById('h_father').value,
@@ -11415,14 +11421,14 @@ ZORAWARPUR
                 method: 'POST',
                 body: JSON.stringify(data)
             })
-            .then(response => response.json()) // Parse response from Google
+            .then(response => response.json()) 
             .then(responseObject => {
                 if (responseObject.result === "success") {
                     alert("Success! Horoscope Request Sent to Astrologer.");
                     horoForm.reset();
                     closeModal();
                 } else {
-                    // This handles WRONG PASSWORD
+                    // Handles WRONG PASSWORD or other errors
                     alert("ERROR: " + responseObject.error); 
                     msg.innerText = responseObject.error;
                     msg.style.color = "red";
@@ -11439,7 +11445,6 @@ ZORAWARPUR
             });
         });
     }
-
     // ==========================================
     // 6. SUBMIT LOGIC (MATCH MAKING)
     // ==========================================
