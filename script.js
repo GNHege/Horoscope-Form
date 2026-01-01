@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     
-    // CONFIGURATION
+    // 1. CONFIGURATION
+    // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby65pDKLbXAVJ3zmCcouGowFMJHWuq5Ml7PcFcZ3pdqo3Z5n6XyR_OEhJKGW-pYApWclQ/exec';
 
-    // ==========================================
-    // 2. PLACE NAMES LIST
-    // ==========================================
+    // 2. PLACE NAMES DATABASE
     // PASTE YOUR 11,000 PLACES BELOW THIS LINE
     const rawPlaces = `
 A LOT
@@ -11323,23 +11322,26 @@ ZORAWARPUR
     // 3. PLACE NAME LOGIC
     // ==========================================
     const placesList = document.getElementById('placesList');
+    
     if (typeof rawPlaces !== 'undefined' && placesList) {
         const placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
         const fragment = document.createDocumentFragment();
+        
         placesArray.forEach(place => {
             const option = document.createElement('option');
             option.value = place;
             fragment.appendChild(option);
         });
+        
         placesList.appendChild(fragment);
     }
 
     // ==========================================
     // 4. ASTROLOGER TOGGLE LOGIC (NEW)
     // ==========================================
-    // This handles the showing/hiding of the Password box vs Astrologer Inputs
+    // This handles showing/hiding Password vs Astrologer Inputs
     window.toggleAstroMode = function(type) {
-        // type is 'h' for Horoscope, 'm' for MatchMaking
+        // type is 'h' (Horoscope) or 'm' (MatchMaking)
         const isAstro = document.getElementById('isAstrologer_' + type).checked;
         const astroPanel = document.getElementById('astroPanel_' + type);
         const adminBox = document.getElementById('adminPassBox_' + type);

@@ -39,7 +39,7 @@
         <!-- CENTER: INFO -->
         <main class="center-panel">
             <div class="center-content">
-                <!-- Replace with your actual logo URL -->
+                <!-- Replace with your actual logo URL/Image -->
                 <img src="https://via.placeholder.com/100" alt="Logo" class="main-logo">
                 <h2>Welcome to Divine Guidance</h2>
                 <p>Accurate predictions based on ancient wisdom.</p>
@@ -81,23 +81,23 @@
             <form id="HoroscopeForm" class="astro-form" style="display:none;">
                 <h4 style="text-align:center; color:#8B4513;">Janma Patrika</h4>
                 
-                <!-- ASTROLOGER TOGGLE (Horoscope) -->
-                <div class="astro-toggle-container">
+                <!-- ASTROLOGER TOGGLE -->
+                <div style="margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">
                     <label style="cursor: pointer; color: #8B4513; font-weight: bold; font-size: 14px;">
                         <input type="checkbox" id="isAstrologer_h" onchange="toggleAstroMode('h')"> 
                         For Astrologers (B2B)
                     </label>
                     
-                    <!-- HIDDEN PANEL FOR ASTROLOGERS -->
+                    <!-- HIDDEN ASTRO PANEL -->
                     <div id="astroPanel_h" style="display:none; background: #e3f2fd; padding: 10px; border-radius: 5px; margin-top: 5px; border: 1px solid #2196F3;">
                         <input type="tel" id="astroMobile_h" placeholder="Reg. Mobile Number" style="margin-bottom:5px;">
                         <input type="text" id="astroFooter_h" maxlength="40" placeholder="Footer Text (Name/Phone - Max 40)">
-                        <small style="color: #0d47a1; display:block;">* This text will appear on the PDF Footer</small>
+                        <small style="color: #0d47a1; display:block; font-size: 11px;">* This text will appear on the PDF Footer</small>
                     </div>
                 </div>
 
                 <!-- REPORT LANGUAGE SELECTION -->
-                <div class="form-group" style="background-color: #f0f8ff; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px; margin-top:10px;">
+                <div class="form-group" style="background-color: #f0f8ff; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px;">
                     <label style="font-weight:bold; color:#000;">Select Report Language:</label>
                     <select id="h_report_lang" required style="font-weight:bold;">
                         <option value="kn">Kannada (ಕನ್ನಡ)</option>
@@ -156,13 +156,13 @@
                 <h4 style="text-align:center; color:#8B4513;">Match Making</h4>
                 
                 <!-- ASTROLOGER TOGGLE (Match Making) -->
-                <div class="astro-toggle-container">
+                <div style="margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">
                     <label style="cursor: pointer; color: #8B4513; font-weight: bold; font-size: 14px;">
                         <input type="checkbox" id="isAstrologer_m" onchange="toggleAstroMode('m')"> 
                         For Astrologers (B2B)
                     </label>
                     
-                    <!-- HIDDEN PANEL FOR ASTROLOGERS -->
+                    <!-- HIDDEN ASTRO PANEL -->
                     <div id="astroPanel_m" style="display:none; background: #e3f2fd; padding: 10px; border-radius: 5px; margin-top: 5px; border: 1px solid #2196F3;">
                         <input type="tel" id="astroMobile_m" placeholder="Reg. Mobile Number" style="margin-bottom:5px;">
                         <input type="text" id="astroFooter_m" maxlength="40" placeholder="Footer Text (Name/Phone - Max 40)">
