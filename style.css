@@ -1,18 +1,90 @@
-* { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-body { margin: 0; padding: 0; background: #f4f1ea; height: 100vh; display: flex; flex-direction: column; }
+/* =========================================
+   1. GLOBAL RESET & BODY
+   ========================================= */
+* { 
+    box-sizing: border-box; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
 
-/* Top Bar */
-.top-bar { background: #4a3b2a; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+body { 
+    margin: 0; 
+    padding: 0; 
+    background: #f4f1ea; 
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+}
 
-/* Main Container */
-.main-container { display: flex; flex: 1; overflow: hidden; }
+/* =========================================
+   2. TOP BAR
+   ========================================= */
+.top-bar { 
+    background: #4a3b2a; 
+    color: #fff; 
+    padding: 10px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    flex-shrink: 0; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
 
-/* Panels */
-.left-panel { width: 20%; background: #e8e0d5; padding: 20px; border-right: 1px solid #ccc; overflow-y: auto; }
-.center-panel { width: 40%; padding: 20px; text-align: center; display: flex; align-items: center; justify-content: center; background: #fff; overflow-y: auto; flex-direction: column; }
-.right-panel { width: 40%; padding: 20px; background: #fdfdfd; border-left: 1px solid #ccc; overflow-y: auto; }
+.logo-area { font-size: 20px; font-weight: bold; letter-spacing: 1px; }
+.lang-area label { margin-right: 10px; font-weight: 500; }
+.lang-area select { padding: 5px; border-radius: 4px; border: none; }
 
-/* Buttons Grid Frame */
+/* =========================================
+   3. MAIN 3-COLUMN LAYOUT
+   ========================================= */
+.main-container { 
+    display: flex; 
+    flex: 1; /* Fills remaining height */
+    overflow: hidden; 
+}
+
+/* LEFT PANEL (Articles) */
+.left-panel { 
+    width: 20%; 
+    background: #e8e0d5; 
+    padding: 20px; 
+    border-right: 1px solid #ccc; 
+    overflow-y: auto; 
+}
+
+/* CENTER PANEL (Info/Logo) */
+.center-panel { 
+    width: 40%; 
+    padding: 20px; 
+    text-align: center; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: #fff; 
+    overflow-y: auto; 
+    flex-direction: column; 
+}
+
+.main-logo { width: 120px; height: auto; margin-bottom: 20px; }
+.contact-card { 
+    margin-top: 20px; 
+    padding: 15px; 
+    background: #fff8e1; 
+    border: 1px solid #d4c4a8; 
+    border-radius: 8px; 
+}
+
+/* RIGHT PANEL (Buttons) */
+.right-panel { 
+    width: 40%; 
+    padding: 20px; 
+    background: #fdfdfd; 
+    border-left: 1px solid #ccc; 
+    overflow-y: auto; 
+}
+
+/* =========================================
+   4. BUTTONS GRID (Right Panel)
+   ========================================= */
 .button-grid-frame {
     border: 4px double #8B4513; 
     padding: 20px; 
@@ -23,30 +95,46 @@ body { margin: 0; padding: 0; background: #f4f1ea; height: 100vh; display: flex;
 
 .buttons-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* 2 Columns */
     gap: 15px;
     margin-top: 20px;
 }
 
 .big-btn {
     padding: 25px 10px;
-    background: #8B4513; color: white;
-    border: none; border-radius: 8px;
-    font-size: 16px; font-weight: bold;
-    cursor: pointer; transition: 0.2s;
+    background: #8B4513; 
+    color: white;
+    border: none; 
+    border-radius: 8px;
+    font-size: 16px; 
+    font-weight: bold;
+    cursor: pointer; 
+    transition: 0.2s ease;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
+
 .big-btn:hover { background: #6b360d; transform: translateY(-2px); }
 .big-btn:active { transform: scale(0.98); }
 
-/* Article List */
+/* =========================================
+   5. ARTICLE LIST (Left Panel)
+   ========================================= */
 .article-list { list-style: none; padding: 0; }
-.article-list li a { display: block; padding: 12px; color: #5c4033; text-decoration: none; border-bottom: 1px solid #dcc; }
-.article-list li a:hover { background: #fff; }
+.article-list li a { 
+    display: block; 
+    padding: 12px; 
+    color: #5c4033; 
+    text-decoration: none; 
+    border-bottom: 1px solid #dcc; 
+    font-weight: 500;
+}
+.article-list li a:hover { background: #fff; color: #8B4513; padding-left: 15px; transition: 0.2s; }
 
-/* --- MODAL POPUP --- */
+/* =========================================
+   6. MODAL POPUP
+   ========================================= */
 .modal-overlay {
-    display: none; 
+    display: none; /* Hidden by default */
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0,0,0,0.7); 
     z-index: 1000;
@@ -56,46 +144,139 @@ body { margin: 0; padding: 0; background: #f4f1ea; height: 100vh; display: flex;
 
 .modal-content {
     background-color: #fff;
-    padding: 20px;
+    padding: 25px;
     border-radius: 10px;
-    width: 90%; max-width: 500px;
-    max-height: 90vh;
+    width: 95%; 
+    max-width: 550px;
+    max-height: 90vh; /* Allow scrolling if form is long */
     overflow-y: auto;
     position: relative;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     animation: slideDown 0.3s ease-out;
 }
 
-@keyframes slideDown { from {opacity: 0; transform: translateY(-50px);} to {opacity: 1; transform: translateY(0);} }
+@keyframes slideDown { 
+    from { opacity: 0; transform: translateY(-30px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
 
 .close-modal {
     position: absolute; top: 10px; right: 20px;
-    color: #aaa; font-size: 30px; font-weight: bold; cursor: pointer;
+    color: #888; font-size: 30px; font-weight: bold; cursor: pointer;
 }
-.close-modal:hover { color: red; }
+.close-modal:hover { color: #d9534f; }
 
-/* Form Styles */
-.astro-form input, .astro-form select { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
-.submit-btn { width: 100%; padding: 12px; background: #28a745; color: white; border: none; font-size: 18px; cursor: pointer; border-radius: 4px; margin-top: 10px; }
+/* =========================================
+   7. FORM ELEMENTS
+   ========================================= */
+.astro-form h4 { margin-top: 0; margin-bottom: 20px; font-size: 22px; }
+
+/* Styling for ALL inputs to look consistent */
+.astro-form input[type="text"],
+.astro-form input[type="email"],
+.astro-form input[type="tel"],
+.astro-form input[type="date"],
+.astro-form input[type="time"],
+.astro-form select { 
+    width: 100%; 
+    padding: 10px; 
+    margin-bottom: 12px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    font-size: 14px;
+}
+
+.astro-form input:focus, .astro-form select:focus {
+    border-color: #8B4513;
+    outline: none;
+    box-shadow: 0 0 5px rgba(139, 69, 19, 0.2);
+}
+
+/* Submit Button */
+.submit-btn { 
+    width: 100%; 
+    padding: 12px; 
+    background: #28a745; 
+    color: white; 
+    border: none; 
+    font-size: 18px; 
+    font-weight: bold;
+    cursor: pointer; 
+    border-radius: 4px; 
+    margin-top: 15px; 
+    transition: background 0.3s;
+}
 .submit-btn:hover { background: #218838; }
-.ok-btn { padding: 10px 30px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
+.submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+/* Status Messages */
+.status-msg { text-align: center; font-weight: bold; margin-top: 10px; min-height: 20px; }
+
+/* Construction Box */
 .construction-box { text-align: center; padding: 40px 10px; }
-.status-msg { text-align: center; font-weight: bold; margin-top: 10px; }
+.ok-btn { 
+    padding: 8px 25px; 
+    background: #007bff; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    margin-top: 15px; 
+    font-size: 16px;
+}
 
-/* Match Making Layout */
-.split-container { display: flex; gap: 10px; margin-bottom: 15px; }
-.split-box { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background: #fdfdfd; }
-.groom-box { border-top: 3px solid #007bff; }
-.bride-box { border-top: 3px solid #e83e8c; }
-.split-box h5 { text-align: center; margin: 0 0 10px 0; }
+/* =========================================
+   8. MATCH MAKING LAYOUT (Split Box)
+   ========================================= */
+.split-container { 
+    display: flex; 
+    gap: 15px; 
+    margin-bottom: 15px; 
+}
 
-/* Mobile */
+.split-box { 
+    flex: 1; 
+    padding: 10px; 
+    border: 1px solid #e0e0e0; 
+    border-radius: 5px; 
+    background: #fbfbfb; 
+}
+
+.groom-box { border-top: 4px solid #007bff; }
+.bride-box { border-top: 4px solid #e83e8c; }
+
+.split-box h5 { 
+    text-align: center; 
+    margin: 0 0 10px 0; 
+    font-size: 16px; 
+    color: #333; 
+}
+
+/* =========================================
+   9. MOBILE RESPONSIVENESS
+   ========================================= */
 @media (max-width: 768px) {
+    /* Stack the main columns */
     .main-container { flex-direction: column; overflow-y: auto; }
-    .left-panel, .center-panel, .right-panel { width: 100%; border: none; height: auto; padding: 15px; }
-    .center-panel { order: 1; border-bottom: 5px solid #8B4513; }
+    
+    .left-panel, .center-panel, .right-panel { 
+        width: 100%; 
+        border: none; 
+        height: auto; 
+        padding: 15px; 
+    }
+    
+    /* Reorder: Logo First, Buttons Second, Articles Last */
+    .center-panel { order: 1; border-bottom: 5px solid #8B4513; background: #fffaf0; }
     .right-panel { order: 2; }
     .left-panel { order: 3; }
+
+    /* Single column buttons on mobile */
     .buttons-grid { grid-template-columns: 1fr; }
+    
+    /* Stack Groom/Bride vertically on mobile */
     .split-container { flex-direction: column; }
+    
+    /* Adjust modal width */
+    .modal-content { width: 95%; margin: 5% auto; padding: 15px; }
 }

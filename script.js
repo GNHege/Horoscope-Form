@@ -3,7 +3,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // CONFIGURATION
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby65pDKLbXAVJ3zmCcouGowFMJHWuq5Ml7PcFcZ3pdqo3Z5n6XyR_OEhJKGW-pYApWclQ/exec';
 
-    // PLACE NAMES LIST BELOW...
+    // ==========================================
+    // 2. PLACE NAMES LIST
+    // ==========================================
+    // PASTE YOUR 11,000 PLACES BELOW THIS LINE
     const rawPlaces = `
 A LOT
 AADAMPUR
@@ -11316,46 +11319,67 @@ ZORAWARPUR
 
 `;
 
- // ==========================================
+// ==========================================
     // 3. PLACE NAME LOGIC
     // ==========================================
     const placesList = document.getElementById('placesList');
-    
-    // Only run if rawPlaces is defined and not empty
     if (typeof rawPlaces !== 'undefined' && placesList) {
         const placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
         const fragment = document.createDocumentFragment();
-        
         placesArray.forEach(place => {
             const option = document.createElement('option');
             option.value = place;
             fragment.appendChild(option);
         });
-        
         placesList.appendChild(fragment);
     }
 
     // ==========================================
-    // 4. MODAL LOGIC (OPEN / CLOSE)
+    // 4. ASTROLOGER TOGGLE LOGIC (NEW)
+    // ==========================================
+    // This handles the showing/hiding of the Password box vs Astrologer Inputs
+    window.toggleAstroMode = function(type) {
+        // type is 'h' for Horoscope, 'm' for MatchMaking
+        const isAstro = document.getElementById('isAstrologer_' + type).checked;
+        const astroPanel = document.getElementById('astroPanel_' + type);
+        const adminBox = document.getElementById('adminPassBox_' + type);
+        const passField = document.getElementById(type + '_password');
+
+        if (isAstro) {
+            // Show Astro inputs, Hide Password
+            astroPanel.style.display = 'block';
+            adminBox.style.display = 'none';
+            passField.removeAttribute('required'); // Don't force password
+        } else {
+            // Show Password, Hide Astro inputs
+            astroPanel.style.display = 'none';
+            adminBox.style.display = 'block';
+            passField.setAttribute('required', 'true'); // Force password
+        }
+    };
+
+    // ==========================================
+    // 5. MODAL LOGIC (OPEN / CLOSE)
     // ==========================================
     const modal = document.getElementById('ServiceModal');
 
     window.openModal = function(serviceType) {
-        // 1. Show the Modal Overlay
         modal.style.display = 'flex'; 
 
-        // 2. Identify inner elements
         const horoForm = document.getElementById('HoroscopeForm');
         const matchForm = document.getElementById('MatchMakingForm');
         const msgBox = document.getElementById('ConstructionMessage');
         const msgTitle = document.getElementById('constructionTitle');
 
-        // 3. Hide everything first
+        // Hide All
         horoForm.style.display = 'none';
         matchForm.style.display = 'none';
         msgBox.style.display = 'none';
 
-        // 4. Logic to show the right one
+        // Reset Buttons
+        document.querySelectorAll('.svc-btn').forEach(btn => btn.classList.remove('active'));
+
+        // Show Correct Form
         if (serviceType === 'Horoscope') {
             horoForm.style.display = 'block';
         } else if (serviceType === 'Match Making') {
@@ -11370,16 +11394,12 @@ ZORAWARPUR
         modal.style.display = 'none';
     };
 
-    // Close modal if user clicks outside the white box
     window.onclick = function(event) {
-        if (event.target == modal) {
-            closeModal();
-        }
+        if (event.target == modal) closeModal();
     };
 
     // ==========================================
-  // ==========================================
-    // 5. SUBMIT LOGIC (HOROSCOPE)
+    // 6. SUBMIT LOGIC (HOROSCOPE)
     // ==========================================
     const horoForm = document.getElementById('HoroscopeForm');
     
@@ -11389,20 +11409,25 @@ ZORAWARPUR
             
             const btn = horoForm.querySelector('button[type="submit"]');
             const msg = document.getElementById('statusMessage');
+            const isAstro = document.getElementById('isAstrologer_h').checked;
             
-            msg.innerText = "Verifying Access Code...";
+            msg.innerText = "Submitting Data...";
             msg.style.color = "blue";
             btn.disabled = true;
             btn.innerText = "Processing...";
 
+            // Prepare Data
             let data = {
-                UserPassword: document.getElementById('h_password').value, 
                 ServiceType: "Horoscope",
                 
-                // *** THIS IS THE NEW LINE YOU NEED ***
-                ReportLanguage: document.getElementById('h_report_lang').value, 
-                // *************************************
+                // Astrologer / Password Logic
+                IsAstrologer: isAstro,
+                AstroMobile: isAstro ? document.getElementById('astroMobile_h').value : "",
+                FooterText: isAstro ? document.getElementById('astroFooter_h').value : "",
+                UserPassword: isAstro ? "" : document.getElementById('h_password').value,
 
+                // Language & Form Data
+                ReportLanguage: document.getElementById('h_report_lang').value, 
                 Name: document.getElementById('h_name').value,
                 Gender: document.getElementById('h_gender').value,
                 FatherName: document.getElementById('h_father').value,
@@ -11417,18 +11442,21 @@ ZORAWARPUR
                 Timestamp: new Date().toISOString()
             };
 
+            // Send
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(data)
             })
-            .then(response => response.json()) 
+            .then(response => response.json())
             .then(responseObject => {
                 if (responseObject.result === "success") {
-                    alert("Success! Horoscope Request Sent to Astrologer.");
+                    alert("Success! Horoscope Request Sent.");
                     horoForm.reset();
+                    // Reset UI
+                    document.getElementById('isAstrologer_h').checked = false;
+                    window.toggleAstroMode('h');
                     closeModal();
                 } else {
-                    // Handles WRONG PASSWORD or other errors
                     alert("ERROR: " + responseObject.error); 
                     msg.innerText = responseObject.error;
                     msg.style.color = "red";
@@ -11445,8 +11473,9 @@ ZORAWARPUR
             });
         });
     }
+
     // ==========================================
-    // 6. SUBMIT LOGIC (MATCH MAKING)
+    // 7. SUBMIT LOGIC (MATCH MAKING)
     // ==========================================
     const matchForm = document.getElementById('MatchMakingForm');
     
@@ -11456,15 +11485,24 @@ ZORAWARPUR
             
             const btn = matchForm.querySelector('button[type="submit"]');
             const msg = document.getElementById('matchStatusMessage');
+            const isAstro = document.getElementById('isAstrologer_m').checked;
             
-            msg.innerText = "Verifying Access Code...";
+            msg.innerText = "Submitting Data...";
             msg.style.color = "blue";
             btn.disabled = true;
             btn.innerText = "Processing...";
 
+            // Prepare Data
             let data = {
-                UserPassword: document.getElementById('m_password').value, // PASSWORD CHECK
                 ServiceType: "MatchMaking",
+                
+                // Astrologer / Password Logic
+                IsAstrologer: isAstro,
+                AstroMobile: isAstro ? document.getElementById('astroMobile_m').value : "",
+                FooterText: isAstro ? document.getElementById('astroFooter_m').value : "",
+                UserPassword: isAstro ? "" : document.getElementById('m_password').value,
+
+                // Form Data
                 GroomName: document.getElementById('m_g_name').value,
                 GroomDoB: document.getElementById('m_g_dob').value,
                 GroomToB: document.getElementById('m_g_tob').value,
@@ -11485,14 +11523,16 @@ ZORAWARPUR
                 method: 'POST',
                 body: JSON.stringify(data)
             })
-            .then(response => response.json()) // Parse response from Google
+            .then(response => response.json())
             .then(responseObject => {
                 if (responseObject.result === "success") {
                     alert("Success! Match Making Request Sent.");
                     matchForm.reset();
+                    // Reset UI
+                    document.getElementById('isAstrologer_m').checked = false;
+                    window.toggleAstroMode('m');
                     closeModal();
                 } else {
-                    // This handles WRONG PASSWORD
                     alert("ERROR: " + responseObject.error);
                     msg.innerText = responseObject.error;
                     msg.style.color = "red";

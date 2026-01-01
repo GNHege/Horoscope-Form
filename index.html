@@ -45,7 +45,7 @@
                 <p>Accurate predictions based on ancient wisdom.</p>
                 <div class="contact-card">
                     <p>📧 astroconsultjyotisha@gmail.com</p>
-                    <p>📞 +91 98765 43210</p>
+                    <p>📞 +91 96063 24384</p>
                 </div>
             </div>
         </main>
@@ -81,20 +81,39 @@
             <form id="HoroscopeForm" class="astro-form" style="display:none;">
                 <h4 style="text-align:center; color:#8B4513;">Janma Patrika</h4>
                 
-                <!-- NEW REPORT LANGUAGE SELECTION -->
-               <!-- NEW REPORT LANGUAGE SELECTION -->
-                <div class="form-group" style="background-color: #f0f8ff; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px;">
+                <!-- ASTROLOGER TOGGLE (Horoscope) -->
+                <div class="astro-toggle-container">
+                    <label style="cursor: pointer; color: #8B4513; font-weight: bold; font-size: 14px;">
+                        <input type="checkbox" id="isAstrologer_h" onchange="toggleAstroMode('h')"> 
+                        For Astrologers (B2B)
+                    </label>
+                    
+                    <!-- HIDDEN PANEL FOR ASTROLOGERS -->
+                    <div id="astroPanel_h" style="display:none; background: #e3f2fd; padding: 10px; border-radius: 5px; margin-top: 5px; border: 1px solid #2196F3;">
+                        <input type="tel" id="astroMobile_h" placeholder="Reg. Mobile Number" style="margin-bottom:5px;">
+                        <input type="text" id="astroFooter_h" maxlength="40" placeholder="Footer Text (Name/Phone - Max 40)">
+                        <small style="color: #0d47a1; display:block;">* This text will appear on the PDF Footer</small>
+                    </div>
+                </div>
+
+                <!-- REPORT LANGUAGE SELECTION -->
+                <div class="form-group" style="background-color: #f0f8ff; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px; margin-top:10px;">
                     <label style="font-weight:bold; color:#000;">Select Report Language:</label>
                     <select id="h_report_lang" required style="font-weight:bold;">
                         <option value="kn">Kannada (ಕನ್ನಡ)</option>
                         <option value="hi">Hindi (हिंदी)</option>
-                        <!-- ENABLED TELUGU -->
                         <option value="te">Telugu (తెలుగు)</option>
-                        
-                        <!-- Future languages -->
-                        <option value="ta" disabled>Tamil (Coming Soon)</option>
+                        <option value="ta">Tamil (தமிழ்)</option>
+                        <option value="ml">Malayalam (മലയാളം)</option>
+                        <option value="mr">Marathi (मराठी)</option>
+                        <option value="gu">Gujarati (ગુજરાતી)</option>
+                        <option value="hi_s">Hindi (South Chart Style)</option>
+                        <option value="sa_s">Sanskrit (South Chart Style)</option>
+                        <option value="sa_n">Sanskrit (North Chart Style)</option>
                     </select>
                 </div>
+
+                <!-- STANDARD INPUTS -->
                 <div class="form-group">
                     <input type="text" id="h_name" placeholder="Name" required>
                 </div>
@@ -120,10 +139,10 @@
                 <input type="email" id="h_email" placeholder="Email Address" required>
                 <input type="tel" id="h_phone" placeholder="Mobile Number">
                 
-                <!-- ACCESS CODE FIELD -->
-                <div class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-bottom: 10px;">
+                <!-- ACCESS CODE FIELD (Hidden if Astrologer Mode is ON) -->
+                <div id="adminPassBox_h" class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-bottom: 10px;">
                     <label style="color: red; font-weight: bold;">Enter Access Code:</label>
-                    <input type="text" id="h_password" placeholder="Ask Astrologer for Code" required>
+                    <input type="text" id="h_password" placeholder="Ask Astrologer for Code">
                 </div>
 
                 <button type="submit" class="submit-btn">Generate Horoscope</button>
@@ -136,7 +155,21 @@
             <form id="MatchMakingForm" class="astro-form" style="display:none;">
                 <h4 style="text-align:center; color:#8B4513;">Match Making</h4>
                 
-                <div class="split-container">
+                <!-- ASTROLOGER TOGGLE (Match Making) -->
+                <div class="astro-toggle-container">
+                    <label style="cursor: pointer; color: #8B4513; font-weight: bold; font-size: 14px;">
+                        <input type="checkbox" id="isAstrologer_m" onchange="toggleAstroMode('m')"> 
+                        For Astrologers (B2B)
+                    </label>
+                    
+                    <!-- HIDDEN PANEL FOR ASTROLOGERS -->
+                    <div id="astroPanel_m" style="display:none; background: #e3f2fd; padding: 10px; border-radius: 5px; margin-top: 5px; border: 1px solid #2196F3;">
+                        <input type="tel" id="astroMobile_m" placeholder="Reg. Mobile Number" style="margin-bottom:5px;">
+                        <input type="text" id="astroFooter_m" maxlength="40" placeholder="Footer Text (Name/Phone - Max 40)">
+                    </div>
+                </div>
+
+                <div class="split-container" style="margin-top:10px;">
                     <!-- GROOM -->
                     <div class="split-box groom-box">
                         <h5>👦 Groom</h5>
@@ -165,10 +198,10 @@
                 <input type="email" id="m_email" placeholder="Email Address" required>
                 <input type="tel" id="m_phone" placeholder="Mobile Number">
 
-                <!-- ACCESS CODE FIELD -->
-                <div class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-top: 10px; margin-bottom: 10px;">
+                <!-- ACCESS CODE FIELD (Hidden if Astrologer Mode is ON) -->
+                <div id="adminPassBox_m" class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-top: 10px; margin-bottom: 10px;">
                     <label style="color: red; font-weight: bold;">Enter Access Code:</label>
-                    <input type="text" id="m_password" placeholder="Ask Astrologer for Code" required>
+                    <input type="text" id="m_password" placeholder="Ask Astrologer for Code">
                 </div>
 
                 <button type="submit" class="submit-btn">Check Match</button>
