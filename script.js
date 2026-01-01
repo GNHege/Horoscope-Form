@@ -1,10 +1,42 @@
 document.addEventListener('DOMContentLoaded', function () {
     
     // 1. CONFIGURATION
-    // PASTE YOUR GOOGLE APPS SCRIPT URL HERE
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby65pDKLbXAVJ3zmCcouGowFMJHWuq5Ml7PcFcZ3pdqo3Z5n6XyR_OEhJKGW-pYApWclQ/exec';
 
-    // 2. PLACE NAMES DATABASE
+    // ==========================================
+    // 2. AUTHORIZED NUMBERS LIST (SECURITY)
+    // ==========================================
+    const AUTHORIZED_NUMBERS = [
+        "9606324384",  // Your Number
+        "9886980580",  // Add more authorized numbers here
+        "9632919459",
+        "8310211217",
+        "9988776655"
+    ];
+
+    // Function to check number and Unlock Password
+    window.checkAccess = function(type) {
+        const phoneInput = document.getElementById(type + '_phone').value;
+        const passInput = document.getElementById(type + '_password');
+        const cleanNumber = phoneInput.replace(/[^0-9]/g, '');
+
+        if (AUTHORIZED_NUMBERS.includes(cleanNumber)) {
+            // MATCH! Unlock the box
+            passInput.disabled = false;
+            passInput.placeholder = "Enter Access Code";
+            passInput.style.backgroundColor = "#fff"; 
+        } else {
+            // NO MATCH. Keep locked.
+            passInput.disabled = true;
+            passInput.value = ""; 
+            passInput.placeholder = "Enter Registered Mobile First";
+            passInput.style.backgroundColor = "#e9ecef"; 
+        }
+    };
+
+    // ==========================================
+    // 3. PLACE NAMES DATABASE
+    // ==========================================
     // PASTE YOUR 11,000 PLACES BELOW THIS LINE
     const rawPlaces = `
 A LOT
@@ -11321,27 +11353,22 @@ ZORAWARPUR
 // ==========================================
     // 3. PLACE NAME LOGIC
     // ==========================================
-    const placesList = document.getElementById('placesList');
-    
+  const placesList = document.getElementById('placesList');
     if (typeof rawPlaces !== 'undefined' && placesList) {
         const placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
         const fragment = document.createDocumentFragment();
-        
         placesArray.forEach(place => {
             const option = document.createElement('option');
             option.value = place;
             fragment.appendChild(option);
         });
-        
         placesList.appendChild(fragment);
     }
 
     // ==========================================
-    // 4. ASTROLOGER TOGGLE LOGIC (NEW)
+    // 5. ASTROLOGER TOGGLE LOGIC
     // ==========================================
-    // This handles showing/hiding Password vs Astrologer Inputs
     window.toggleAstroMode = function(type) {
-        // type is 'h' (Horoscope) or 'm' (MatchMaking)
         const isAstro = document.getElementById('isAstrologer_' + type).checked;
         const astroPanel = document.getElementById('astroPanel_' + type);
         const adminBox = document.getElementById('adminPassBox_' + type);
@@ -11351,17 +11378,17 @@ ZORAWARPUR
             // Show Astro inputs, Hide Password
             astroPanel.style.display = 'block';
             adminBox.style.display = 'none';
-            passField.removeAttribute('required'); // Don't force password
+            passField.removeAttribute('required'); 
         } else {
             // Show Password, Hide Astro inputs
             astroPanel.style.display = 'none';
             adminBox.style.display = 'block';
-            passField.setAttribute('required', 'true'); // Force password
+            passField.setAttribute('required', 'true'); 
         }
     };
 
     // ==========================================
-    // 5. MODAL LOGIC (OPEN / CLOSE)
+    // 6. MODAL LOGIC (OPEN / CLOSE)
     // ==========================================
     const modal = document.getElementById('ServiceModal');
 
@@ -11373,15 +11400,12 @@ ZORAWARPUR
         const msgBox = document.getElementById('ConstructionMessage');
         const msgTitle = document.getElementById('constructionTitle');
 
-        // Hide All
         horoForm.style.display = 'none';
         matchForm.style.display = 'none';
         msgBox.style.display = 'none';
 
-        // Reset Buttons
         document.querySelectorAll('.svc-btn').forEach(btn => btn.classList.remove('active'));
 
-        // Show Correct Form
         if (serviceType === 'Horoscope') {
             horoForm.style.display = 'block';
         } else if (serviceType === 'Match Making') {
@@ -11401,7 +11425,7 @@ ZORAWARPUR
     };
 
     // ==========================================
-    // 6. SUBMIT LOGIC (HOROSCOPE)
+    // 7. SUBMIT LOGIC (HOROSCOPE)
     // ==========================================
     const horoForm = document.getElementById('HoroscopeForm');
     
@@ -11418,17 +11442,13 @@ ZORAWARPUR
             btn.disabled = true;
             btn.innerText = "Processing...";
 
-            // Prepare Data
             let data = {
                 ServiceType: "Horoscope",
-                
-                // Astrologer / Password Logic
                 IsAstrologer: isAstro,
                 AstroMobile: isAstro ? document.getElementById('astroMobile_h').value : "",
                 FooterText: isAstro ? document.getElementById('astroFooter_h').value : "",
                 UserPassword: isAstro ? "" : document.getElementById('h_password').value,
 
-                // Language & Form Data
                 ReportLanguage: document.getElementById('h_report_lang').value, 
                 Name: document.getElementById('h_name').value,
                 Gender: document.getElementById('h_gender').value,
@@ -11444,7 +11464,6 @@ ZORAWARPUR
                 Timestamp: new Date().toISOString()
             };
 
-            // Send
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(data)
@@ -11454,7 +11473,6 @@ ZORAWARPUR
                 if (responseObject.result === "success") {
                     alert("Success! Horoscope Request Sent.");
                     horoForm.reset();
-                    // Reset UI
                     document.getElementById('isAstrologer_h').checked = false;
                     window.toggleAstroMode('h');
                     closeModal();
@@ -11477,7 +11495,7 @@ ZORAWARPUR
     }
 
     // ==========================================
-    // 7. SUBMIT LOGIC (MATCH MAKING)
+    // 8. SUBMIT LOGIC (MATCH MAKING)
     // ==========================================
     const matchForm = document.getElementById('MatchMakingForm');
     
@@ -11494,17 +11512,13 @@ ZORAWARPUR
             btn.disabled = true;
             btn.innerText = "Processing...";
 
-            // Prepare Data
             let data = {
                 ServiceType: "MatchMaking",
-                
-                // Astrologer / Password Logic
                 IsAstrologer: isAstro,
                 AstroMobile: isAstro ? document.getElementById('astroMobile_m').value : "",
                 FooterText: isAstro ? document.getElementById('astroFooter_m').value : "",
                 UserPassword: isAstro ? "" : document.getElementById('m_password').value,
 
-                // Form Data
                 GroomName: document.getElementById('m_g_name').value,
                 GroomDoB: document.getElementById('m_g_dob').value,
                 GroomToB: document.getElementById('m_g_tob').value,
@@ -11530,7 +11544,6 @@ ZORAWARPUR
                 if (responseObject.result === "success") {
                     alert("Success! Match Making Request Sent.");
                     matchForm.reset();
-                    // Reset UI
                     document.getElementById('isAstrologer_m').checked = false;
                     window.toggleAstroMode('m');
                     closeModal();

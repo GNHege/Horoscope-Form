@@ -39,7 +39,7 @@
         <!-- CENTER: INFO -->
         <main class="center-panel">
             <div class="center-content">
-                <!-- Replace with your actual logo URL/Image -->
+                <!-- Replace with your actual logo URL -->
                 <img src="https://via.placeholder.com/100" alt="Logo" class="main-logo">
                 <h2>Welcome to Divine Guidance</h2>
                 <p>Accurate predictions based on ancient wisdom.</p>
@@ -81,7 +81,7 @@
             <form id="HoroscopeForm" class="astro-form" style="display:none;">
                 <h4 style="text-align:center; color:#8B4513;">Janma Patrika</h4>
                 
-                <!-- ASTROLOGER TOGGLE -->
+                <!-- ASTROLOGER TOGGLE (B2B Mode) -->
                 <div style="margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">
                     <label style="cursor: pointer; color: #8B4513; font-weight: bold; font-size: 14px;">
                         <input type="checkbox" id="isAstrologer_h" onchange="toggleAstroMode('h')"> 
@@ -137,12 +137,14 @@
                 
                 <hr>
                 <input type="email" id="h_email" placeholder="Email Address" required>
-                <input type="tel" id="h_phone" placeholder="Mobile Number">
                 
-                <!-- ACCESS CODE FIELD (Hidden if Astrologer Mode is ON) -->
+                <!-- PHONE INPUT WITH SECURITY CHECK -->
+                <input type="tel" id="h_phone" placeholder="Mobile Number" onkeyup="checkAccess('h')" required>
+                
+                <!-- ACCESS CODE FIELD (Locked by Default) -->
                 <div id="adminPassBox_h" class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-bottom: 10px;">
                     <label style="color: red; font-weight: bold;">Enter Access Code:</label>
-                    <input type="text" id="h_password" placeholder="Ask Astrologer for Code">
+                    <input type="text" id="h_password" placeholder="Enter Registered Mobile First" disabled required>
                 </div>
 
                 <button type="submit" class="submit-btn">Generate Horoscope</button>
@@ -196,12 +198,14 @@
                 <hr>
                 <label>Contact Details:</label>
                 <input type="email" id="m_email" placeholder="Email Address" required>
-                <input type="tel" id="m_phone" placeholder="Mobile Number">
+                
+                <!-- PHONE INPUT WITH SECURITY CHECK -->
+                <input type="tel" id="m_phone" placeholder="Mobile Number" onkeyup="checkAccess('m')" required>
 
-                <!-- ACCESS CODE FIELD (Hidden if Astrologer Mode is ON) -->
+                <!-- ACCESS CODE FIELD (Locked by Default) -->
                 <div id="adminPassBox_m" class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-top: 10px; margin-bottom: 10px;">
                     <label style="color: red; font-weight: bold;">Enter Access Code:</label>
-                    <input type="text" id="m_password" placeholder="Ask Astrologer for Code">
+                    <input type="text" id="m_password" placeholder="Enter Registered Mobile First" disabled required>
                 </div>
 
                 <button type="submit" class="submit-btn">Check Match</button>
