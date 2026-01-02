@@ -4,29 +4,28 @@ document.addEventListener('DOMContentLoaded', function () {
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby65pDKLbXAVJ3zmCcouGowFMJHWuq5Ml7PcFcZ3pdqo3Z5n6XyR_OEhJKGW-pYApWclQ/exec';
 
     // ==========================================
-    // 2. AUTHORIZED NUMBERS LIST (SECURITY)
+    // 2. AUTHORIZED ASTROLOGER NUMBERS
     // ==========================================
     const AUTHORIZED_NUMBERS = [
-        "9606324384",  // Your Number
-        "9886980580",  // Add more authorized numbers here
+        "9606324384",
+        "9886980580",
         "9632919459",
-        "8310211217",
-        "9988776655"
+        "8310211217"
     ];
 
-    // Function to check number and Unlock Password
+    // UPDATED: Checks Astrologer Mobile Input to Unlock Password
     window.checkAccess = function(type) {
-        const phoneInput = document.getElementById(type + '_phone').value;
+        // type is 'h' (Horoscope) or 'm' (MatchMaking)
+        const phoneInput = document.getElementById('astroMobile_' + type).value;
         const passInput = document.getElementById(type + '_password');
+        
         const cleanNumber = phoneInput.replace(/[^0-9]/g, '');
 
         if (AUTHORIZED_NUMBERS.includes(cleanNumber)) {
-            // MATCH! Unlock the box
             passInput.disabled = false;
             passInput.placeholder = "Enter Access Code";
             passInput.style.backgroundColor = "#fff"; 
         } else {
-            // NO MATCH. Keep locked.
             passInput.disabled = true;
             passInput.value = ""; 
             passInput.placeholder = "Enter Registered Mobile First";
@@ -11350,10 +11349,10 @@ ZORAWARPUR
 
 `;
 
-// ==========================================
-    // 3. PLACE NAME LOGIC
+   // ==========================================
+    // 4. PLACE NAME LOGIC
     // ==========================================
-  const placesList = document.getElementById('placesList');
+    const placesList = document.getElementById('placesList');
     if (typeof rawPlaces !== 'undefined' && placesList) {
         const placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
         const fragment = document.createDocumentFragment();
@@ -11366,29 +11365,7 @@ ZORAWARPUR
     }
 
     // ==========================================
-    // 5. ASTROLOGER TOGGLE LOGIC
-    // ==========================================
-    window.toggleAstroMode = function(type) {
-        const isAstro = document.getElementById('isAstrologer_' + type).checked;
-        const astroPanel = document.getElementById('astroPanel_' + type);
-        const adminBox = document.getElementById('adminPassBox_' + type);
-        const passField = document.getElementById(type + '_password');
-
-        if (isAstro) {
-            // Show Astro inputs, Hide Password
-            astroPanel.style.display = 'block';
-            adminBox.style.display = 'none';
-            passField.removeAttribute('required'); 
-        } else {
-            // Show Password, Hide Astro inputs
-            astroPanel.style.display = 'none';
-            adminBox.style.display = 'block';
-            passField.setAttribute('required', 'true'); 
-        }
-    };
-
-    // ==========================================
-    // 6. MODAL LOGIC (OPEN / CLOSE)
+    // 5. MODAL LOGIC (OPEN / CLOSE)
     // ==========================================
     const modal = document.getElementById('ServiceModal');
 
@@ -11425,30 +11402,30 @@ ZORAWARPUR
     };
 
     // ==========================================
-    // 7. SUBMIT LOGIC (HOROSCOPE)
+    // 6. SUBMIT LOGIC (HOROSCOPE)
     // ==========================================
     const horoForm = document.getElementById('HoroscopeForm');
-    
     if (horoForm) {
         horoForm.addEventListener('submit', e => {
             e.preventDefault();
-            
             const btn = horoForm.querySelector('button[type="submit"]');
             const msg = document.getElementById('statusMessage');
-            const isAstro = document.getElementById('isAstrologer_h').checked;
             
-            msg.innerText = "Submitting Data...";
+            msg.innerText = "Verifying Credentials...";
             msg.style.color = "blue";
             btn.disabled = true;
             btn.innerText = "Processing...";
 
             let data = {
                 ServiceType: "Horoscope",
-                IsAstrologer: isAstro,
-                AstroMobile: isAstro ? document.getElementById('astroMobile_h').value : "",
-                FooterText: isAstro ? document.getElementById('astroFooter_h').value : "",
-                UserPassword: isAstro ? "" : document.getElementById('h_password').value,
+                IsAstrologer: true, // ALWAYS TRUE
+                
+                // Credentials
+                AstroMobile: document.getElementById('astroMobile_h').value,
+                FooterText: document.getElementById('astroFooter_h').value, // Can be empty (Optional)
+                UserPassword: document.getElementById('h_password').value,
 
+                // Form Data
                 ReportLanguage: document.getElementById('h_report_lang').value, 
                 Name: document.getElementById('h_name').value,
                 Gender: document.getElementById('h_gender').value,
@@ -11464,104 +11441,78 @@ ZORAWARPUR
                 Timestamp: new Date().toISOString()
             };
 
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(responseObject => {
-                if (responseObject.result === "success") {
+            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) })
+            .then(r => r.json())
+            .then(obj => {
+                if (obj.result === "success") {
                     alert("Success! Horoscope Request Sent.");
                     horoForm.reset();
-                    document.getElementById('isAstrologer_h').checked = false;
-                    window.toggleAstroMode('h');
                     closeModal();
                 } else {
-                    alert("ERROR: " + responseObject.error); 
-                    msg.innerText = responseObject.error;
+                    alert("ERROR: " + obj.error);
+                    msg.innerText = obj.error;
                     msg.style.color = "red";
                 }
             })
-            .catch(error => {
-                msg.innerText = "Error: Connection Failed.";
-                msg.style.color = "red";
-                console.error(error);
-            })
-            .finally(() => {
-                btn.disabled = false;
-                btn.innerText = "Generate Horoscope";
-            });
+            .catch(err => { msg.innerText = "Connection Failed"; console.error(err); })
+            .finally(() => { btn.disabled = false; btn.innerText = "Generate Horoscope"; });
         });
     }
 
     // ==========================================
-    // 8. SUBMIT LOGIC (MATCH MAKING)
+    // 7. SUBMIT LOGIC (MATCH MAKING)
     // ==========================================
     const matchForm = document.getElementById('MatchMakingForm');
-    
     if (matchForm) {
         matchForm.addEventListener('submit', e => {
             e.preventDefault();
-            
             const btn = matchForm.querySelector('button[type="submit"]');
             const msg = document.getElementById('matchStatusMessage');
-            const isAstro = document.getElementById('isAstrologer_m').checked;
             
-            msg.innerText = "Submitting Data...";
+            msg.innerText = "Verifying Credentials...";
             msg.style.color = "blue";
             btn.disabled = true;
             btn.innerText = "Processing...";
 
             let data = {
                 ServiceType: "MatchMaking",
-                IsAstrologer: isAstro,
-                AstroMobile: isAstro ? document.getElementById('astroMobile_m').value : "",
-                FooterText: isAstro ? document.getElementById('astroFooter_m').value : "",
-                UserPassword: isAstro ? "" : document.getElementById('m_password').value,
+                IsAstrologer: true, // ALWAYS TRUE
+                
+                // Credentials
+                AstroMobile: document.getElementById('astroMobile_m').value,
+                FooterText: document.getElementById('astroFooter_m').value, // Can be empty
+                UserPassword: document.getElementById('m_password').value,
 
+                // Match Data
                 GroomName: document.getElementById('m_g_name').value,
                 GroomDoB: document.getElementById('m_g_dob').value,
                 GroomToB: document.getElementById('m_g_tob').value,
                 GroomPlace: document.getElementById('m_g_place').value,
-                
                 BrideName: document.getElementById('m_b_name').value,
                 BrideDoB: document.getElementById('m_b_dob').value,
                 BrideToB: document.getElementById('m_b_tob').value,
                 BridePlace: document.getElementById('m_b_place').value,
-
                 Email: document.getElementById('m_email').value,
                 PhoneNumber: document.getElementById('m_phone').value,
                 LanguagePreference: document.getElementById('globalLang').value,
                 Timestamp: new Date().toISOString()
             };
 
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(responseObject => {
-                if (responseObject.result === "success") {
+            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) })
+            .then(r => r.json())
+            .then(obj => {
+                if (obj.result === "success") {
                     alert("Success! Match Making Request Sent.");
                     matchForm.reset();
-                    document.getElementById('isAstrologer_m').checked = false;
-                    window.toggleAstroMode('m');
                     closeModal();
                 } else {
-                    alert("ERROR: " + responseObject.error);
-                    msg.innerText = responseObject.error;
+                    alert("ERROR: " + obj.error);
+                    msg.innerText = obj.error;
                     msg.style.color = "red";
                 }
             })
-            .catch(error => {
-                msg.innerText = "Error: Connection Failed.";
-                msg.style.color = "red";
-                console.error(error);
-            })
-            .finally(() => {
-                btn.disabled = false;
-                btn.innerText = "Check Match Compatibility";
-            });
+            .catch(err => { msg.innerText = "Connection Failed"; console.error(err); })
+            .finally(() => { btn.disabled = false; btn.innerText = "Check Match Compatibility"; });
         });
     }
 });
