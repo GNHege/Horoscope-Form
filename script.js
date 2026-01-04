@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
         "9606324384",
         "9886980580",
         "9632919459",
-        "9480477671"
+        "8310211217"
     ];
 
     // UPDATED: Checks Astrologer Mobile Input to Unlock Password
