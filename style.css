@@ -34,31 +34,58 @@ body {
     width: 40%; 
     padding: 20px; 
     text-align: center; 
-    display: flex; align-items: center; justify-content: center; 
     
-    /* Ensure 'background.jpg' is uploaded to GitHub */
+    /* CHANGE 1: Move content to TOP instead of Center */
+    display: flex; 
+    align-items: flex-start; /* Aligns box to top */
+    justify-content: center; /* Centers box horizontally */
+    padding-top: 50px;       /* Adds space from the top bar */
+    
+    /* Background Image */
     background: url('background.jpg');
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat;
     
-    overflow-y: auto; flex-direction: column; 
+    overflow-y: auto; 
 }
 
-/* NEW: Content Box to make text readable over image */
+/* NEW: Content Box (The White Area) - Made Smaller */
 .content-box {
-    background-color: rgba(255, 255, 255, 0.9); /* White with transparency */
-    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.85); /* Slightly more transparent */
+    padding: 20px; /* Reduced padding */
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     max-width: 90%;
+    width: auto;
+    
+    /* Optional: Ensure it doesn't get too wide on desktop */
+    margin-bottom: auto; /* Helps push it to top */
 }
 
-.main-logo { width: 100px; height: auto; margin-bottom: 20px; }
-.contact-card { 
-    margin-top: 20px; padding: 15px; 
-    background: #fff8e1; border: 1px solid #d4c4a8; border-radius: 8px; font-weight: bold; 
+/* Made Elements Smaller to fit in "1/3rd Height" */
+.main-logo { width: 80px; height: auto; margin-bottom: 10px; } /* Smaller Logo */
+
+.center-content h2 {
+    margin: 5px 0; 
+    font-size: 1.4rem; 
+    color: #4a3b2a;
 }
+.center-content p {
+    margin: 5px 0 15px 0;
+    font-weight: 500;
+}
+
+.contact-card { 
+    margin-top: 10px; 
+    padding: 10px; /* Smaller padding */
+    background: #fff8e1; 
+    border: 1px solid #d4c4a8; 
+    border-radius: 8px; 
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+.contact-card p { margin: 5px 0; }
 
 /* =========================================
    4. BUTTONS & FORMS
@@ -85,14 +112,15 @@ body {
 .astro-form input[type="date"], .astro-form input[type="time"], .astro-form select { 
     width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; text-transform: uppercase; 
 }
-
-/* Mixed Case for Password */
 .astro-form input.password-input { text-transform: none !important; }
 
 .astro-form input:focus, .astro-form select:focus { border-color: #8B4513; outline: none; box-shadow: 0 0 5px rgba(139, 69, 19, 0.2); }
 .submit-btn { width: 100%; padding: 12px; background: #28a745; color: white; border: none; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 4px; margin-top: 15px; transition: background 0.3s; text-transform: uppercase; }
 .submit-btn:hover { background: #218838; }
 .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+.status-msg { text-align: center; font-weight: bold; margin-top: 10px; min-height: 20px; }
+.construction-box { text-align: center; padding: 40px 10px; }
+.ok-btn { padding: 8px 25px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; font-size: 16px; }
 
 /* MATCH MAKING */
 .split-container { display: flex; gap: 15px; margin-bottom: 15px; }
@@ -100,19 +128,23 @@ body {
 .groom-box { border-top: 4px solid #007bff; }
 .bride-box { border-top: 4px solid #e83e8c; }
 .split-box h5 { text-align: center; margin: 0 0 10px 0; font-size: 16px; color: #333; }
-.construction-box { text-align: center; padding: 40px 10px; }
-.ok-btn { padding: 8px 25px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; font-size: 16px; }
 
 /* MOBILE RESPONSIVENESS */
 @media (max-width: 768px) {
     .main-container { flex-direction: column; overflow-y: auto; }
     .left-panel, .center-panel, .right-panel { width: 100%; border: none; height: auto; padding: 15px; }
     
-    /* REORDER: Logo (Center) First, Buttons (Right) Second, Articles (Left) Last */
-    .center-panel { order: 1; border-bottom: 5px solid #8B4513; height: 350px; }
+    /* Make center panel smaller on mobile (300px) */
+    .center-panel { 
+        order: 1; 
+        border-bottom: 5px solid #8B4513; 
+        height: 300px; 
+        padding-top: 20px; /* Less padding on mobile */
+        align-items: center; /* Center vertically on mobile */
+    }
+    
     .right-panel { order: 2; }
     .left-panel { order: 3; }
-    
     .buttons-grid { grid-template-columns: 1fr; }
     .split-container { flex-direction: column; }
     .modal-content { width: 95%; margin: 5% auto; padding: 15px; }
