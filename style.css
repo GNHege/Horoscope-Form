@@ -29,17 +29,15 @@ body {
 .left-panel { width: 20%; background: #e8e0d5; padding: 15px; border-right: 1px solid #ccc; overflow-y: auto; }
 .right-panel { width: 40%; padding: 20px; background: #fdfdfd; border-left: 1px solid #ccc; overflow-y: auto; }
 
-/* CENTER PANEL - BACKGROUND IMAGE SETTINGS */
+/* CENTER PANEL */
 .center-panel { 
     width: 40%; 
     padding: 10px; 
     text-align: center; 
-    
-    /* ALIGNMENT: PUSH TO TOP */
     display: flex; 
-    align-items: flex-start; /* Aligns content to the top */
+    align-items: flex-start; /* Pushes Logo to Top */
     justify-content: center; 
-    padding-top: 10px; /* Minimal space from top bar */
+    padding-top: 30px; 
     
     /* Background Image */
     background: url('background.jpg');
@@ -50,54 +48,37 @@ body {
     overflow-y: auto; 
 }
 
-/* NEW COMPACT CONTENT BOX */
+/* CONTENT BOX (Now 100% Transparent) */
 .content-box {
-    /* 50% Transparency */
-    background-color: rgba(255, 255, 255, 0.5); 
-    
-    /* Width increased to 30% relative to screen (handled via max-width logic below) */
-    width: 95%; 
-    max-width: 650px; /* Wider box */
-    
-    /* Compact Padding to reduce height */
-    padding: 10px; 
-    
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    background-color: transparent; /* No White Box */
+    padding: 0; 
+    border-radius: 0;
+    box-shadow: none; /* No Shadow */
+    width: 100%; 
+    max-width: 600px;
     margin-bottom: auto;
 }
 
-/* SUPER COMPACT ELEMENTS (To reduce height by 50%) */
+/* LOGO SIZE */
 .main-logo { 
-    width: 50px; /* Much smaller logo */
+    width: 80px; /* Adjust size as needed */
     height: auto; 
     margin-bottom: 2px; 
+    /* Optional: Add a subtle drop shadow to logo to make it pop over background */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 
-.center-content h2 {
-    margin: 0; 
-    font-size: 1.1rem; /* Smaller Title */
-    color: #2e241b;
-    text-shadow: 0 1px 1px rgba(255,255,255,0.8);
-    line-height: 1.2;
+/* LEFT PANEL CONTACT CARD */
+.side-contact-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+    border-left: 5px solid #8B4513;
 }
-
-.center-content p {
-    margin: 2px 0 5px 0;
-    font-size: 0.85rem;
-    font-weight: 600;
-}
-
-.contact-card { 
-    margin-top: 5px; 
-    padding: 5px; /* Minimal padding */
-    background: rgba(255, 248, 225, 0.8); 
-    border: 1px solid #d4c4a8; 
-    border-radius: 6px; 
-    font-weight: bold;
-    font-size: 0.8rem;
-}
-.contact-card p { margin: 1px 0; }
+.side-contact-card p { margin: 5px 0; font-weight: bold; font-size: 0.9rem; color: #333; }
+.separator { margin: 15px 0; border: 0; border-top: 1px solid #ccc; }
 
 /* =========================================
    4. BUTTONS & FORMS
@@ -146,16 +127,11 @@ body {
     .main-container { flex-direction: column; overflow-y: auto; }
     .left-panel, .center-panel, .right-panel { width: 100%; border: none; height: auto; padding: 10px; }
     
-    /* Mobile: Even smaller box */
-    .center-panel { 
-        order: 1; 
-        border-bottom: 5px solid #8B4513; 
-        height: 200px; /* Minimal height */
-        padding-top: 10px;
-    }
-    
+    /* Order: Logo (1), Buttons (2), Articles+Contact (3) */
+    .center-panel { order: 1; border-bottom: 5px solid #8B4513; height: 250px; padding-top: 10px; }
     .right-panel { order: 2; }
     .left-panel { order: 3; }
+    
     .buttons-grid { grid-template-columns: 1fr; }
     .split-container { flex-direction: column; }
     .modal-content { width: 95%; margin: 5% auto; padding: 15px; }
