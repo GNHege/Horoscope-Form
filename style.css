@@ -7,8 +7,7 @@ body {
     margin: 0; padding: 0; 
     background: #f4f1ea; 
     height: 100vh; 
-    display: flex; 
-    flex-direction: column; 
+    display: flex; flex-direction: column; 
 }
 
 /* =========================================
@@ -32,24 +31,41 @@ body {
 
 /* CENTER PANEL - BACKGROUND IMAGE SETTINGS */
 .center-panel { 
-    width: 40%; padding: 20px; text-align: center; 
+    width: 40%; 
+    padding: 20px; 
+    text-align: center; 
     display: flex; align-items: center; justify-content: center; 
     
-    /* Ensure the file 'background.jpg' is in your folder */
-    background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('background.jpg');
-    background-size: cover; background-position: center; background-repeat: no-repeat;
+    /* Ensure 'background.jpg' is uploaded to GitHub */
+    background: url('background.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
     
     overflow-y: auto; flex-direction: column; 
 }
 
-.main-logo { width: 120px; height: auto; margin-bottom: 20px; }
-.contact-card { margin-top: 20px; padding: 15px; background: #fff8e1; border: 1px solid #d4c4a8; border-radius: 8px; font-weight: bold; }
+/* NEW: Content Box to make text readable over image */
+.content-box {
+    background-color: rgba(255, 255, 255, 0.9); /* White with transparency */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    max-width: 90%;
+}
+
+.main-logo { width: 100px; height: auto; margin-bottom: 20px; }
+.contact-card { 
+    margin-top: 20px; padding: 15px; 
+    background: #fff8e1; border: 1px solid #d4c4a8; border-radius: 8px; font-weight: bold; 
+}
 
 /* =========================================
    4. BUTTONS & FORMS
    ========================================= */
 .button-grid-frame { border: 4px double #8B4513; padding: 20px; background: #fffaf0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 .buttons-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
+
 .big-btn { padding: 25px 10px; background: #8B4513; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
 .big-btn:hover { background: #6b360d; transform: translateY(-2px); }
 
@@ -65,25 +81,18 @@ body {
 
 /* INPUTS */
 .astro-form h4 { margin-top: 0; margin-bottom: 20px; font-size: 22px; border-bottom: 2px solid #8B4513; padding-bottom: 10px; }
-
-/* General inputs: Uppercase enforced visually */
 .astro-form input[type="text"], .astro-form input[type="email"], .astro-form input[type="tel"], 
 .astro-form input[type="date"], .astro-form input[type="time"], .astro-form select { 
     width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; text-transform: uppercase; 
 }
 
-/* *** CRITICAL FIX: Password input should allow mixed case *** */
-.astro-form input.password-input {
-    text-transform: none !important;
-}
+/* Mixed Case for Password */
+.astro-form input.password-input { text-transform: none !important; }
 
 .astro-form input:focus, .astro-form select:focus { border-color: #8B4513; outline: none; box-shadow: 0 0 5px rgba(139, 69, 19, 0.2); }
 .submit-btn { width: 100%; padding: 12px; background: #28a745; color: white; border: none; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 4px; margin-top: 15px; transition: background 0.3s; text-transform: uppercase; }
 .submit-btn:hover { background: #218838; }
 .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
-.status-msg { text-align: center; font-weight: bold; margin-top: 10px; min-height: 20px; }
-.construction-box { text-align: center; padding: 40px 10px; }
-.ok-btn { padding: 8px 25px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; font-size: 16px; }
 
 /* MATCH MAKING */
 .split-container { display: flex; gap: 15px; margin-bottom: 15px; }
@@ -91,14 +100,19 @@ body {
 .groom-box { border-top: 4px solid #007bff; }
 .bride-box { border-top: 4px solid #e83e8c; }
 .split-box h5 { text-align: center; margin: 0 0 10px 0; font-size: 16px; color: #333; }
+.construction-box { text-align: center; padding: 40px 10px; }
+.ok-btn { padding: 8px 25px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; font-size: 16px; }
 
-/* MOBILE */
+/* MOBILE RESPONSIVENESS */
 @media (max-width: 768px) {
     .main-container { flex-direction: column; overflow-y: auto; }
     .left-panel, .center-panel, .right-panel { width: 100%; border: none; height: auto; padding: 15px; }
-    .center-panel { order: 1; border-bottom: 5px solid #8B4513; background: #fffaf0; height: 300px; }
+    
+    /* REORDER: Logo (Center) First, Buttons (Right) Second, Articles (Left) Last */
+    .center-panel { order: 1; border-bottom: 5px solid #8B4513; height: 350px; }
     .right-panel { order: 2; }
     .left-panel { order: 3; }
+    
     .buttons-grid { grid-template-columns: 1fr; }
     .split-container { flex-direction: column; }
     .modal-content { width: 95%; margin: 5% auto; padding: 15px; }
