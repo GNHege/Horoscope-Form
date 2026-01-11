@@ -35,11 +35,11 @@ body {
     padding: 20px; 
     text-align: center; 
     
-    /* CHANGE 1: Move content to TOP instead of Center */
+    /* Position elements at the TOP */
     display: flex; 
-    align-items: flex-start; /* Aligns box to top */
-    justify-content: center; /* Centers box horizontally */
-    padding-top: 50px;       /* Adds space from the top bar */
+    align-items: flex-start; 
+    justify-content: center; 
+    padding-top: 30px; /* Pushed to top */
     
     /* Background Image */
     background: url('background.jpg');
@@ -50,42 +50,53 @@ body {
     overflow-y: auto; 
 }
 
-/* NEW: Content Box (The White Area) - Made Smaller */
+/* NEW COMPACT CONTENT BOX */
 .content-box {
-    background-color: rgba(255, 255, 255, 0.85); /* Slightly more transparent */
-    padding: 20px; /* Reduced padding */
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    max-width: 90%;
-    width: auto;
+    /* 50% Transparency */
+    background-color: rgba(255, 255, 255, 0.5); 
     
-    /* Optional: Ensure it doesn't get too wide on desktop */
-    margin-bottom: auto; /* Helps push it to top */
+    /* Increased Width */
+    width: 95%; 
+    max-width: 600px;
+    
+    /* Compact Padding */
+    padding: 15px; 
+    
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    margin-bottom: auto;
 }
 
-/* Made Elements Smaller to fit in "1/3rd Height" */
-.main-logo { width: 80px; height: auto; margin-bottom: 10px; } /* Smaller Logo */
+/* COMPACT ELEMENTS TO REDUCE HEIGHT */
+.main-logo { 
+    width: 60px; /* Smaller Logo */
+    height: auto; 
+    margin-bottom: 5px; 
+}
 
 .center-content h2 {
-    margin: 5px 0; 
-    font-size: 1.4rem; 
-    color: #4a3b2a;
+    margin: 2px 0; 
+    font-size: 1.2rem; /* Smaller Title */
+    color: #2e241b;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.8);
 }
+
 .center-content p {
-    margin: 5px 0 15px 0;
-    font-weight: 500;
+    margin: 2px 0 10px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
 }
 
 .contact-card { 
-    margin-top: 10px; 
-    padding: 10px; /* Smaller padding */
-    background: #fff8e1; 
+    margin-top: 5px; 
+    padding: 8px; /* Compact padding */
+    background: rgba(255, 248, 225, 0.8); /* Slight transparency on card too */
     border: 1px solid #d4c4a8; 
-    border-radius: 8px; 
+    border-radius: 6px; 
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
-.contact-card p { margin: 5px 0; }
+.contact-card p { margin: 2px 0; }
 
 /* =========================================
    4. BUTTONS & FORMS
@@ -134,13 +145,12 @@ body {
     .main-container { flex-direction: column; overflow-y: auto; }
     .left-panel, .center-panel, .right-panel { width: 100%; border: none; height: auto; padding: 15px; }
     
-    /* Make center panel smaller on mobile (300px) */
+    /* Mobile: Logo First, Smaller Height */
     .center-panel { 
         order: 1; 
         border-bottom: 5px solid #8B4513; 
-        height: 300px; 
-        padding-top: 20px; /* Less padding on mobile */
-        align-items: center; /* Center vertically on mobile */
+        height: 250px; /* Reduced height on mobile */
+        padding-top: 20px;
     }
     
     .right-panel { order: 2; }
