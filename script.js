@@ -8,12 +8,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
     const AUTHORIZED_NUMBERS = [
         "9606324384",
-        "9886980580",
-        "9632919459",
-        "9480477671",
-        "7795522945"
+        "9876543210",
+        "9988776655"
     ];
 
+    // UNLOCK PASSWORD LOGIC
     window.checkAccess = function(type) {
         const phoneInput = document.getElementById('astroMobile_' + type).value;
         const passInput = document.getElementById(type + '_password');
@@ -34,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
     // 3. PLACE NAMES DATABASE
     // ==========================================
-    // PASTE YOUR 11,000 PLACES BELOW THIS LINE
     const rawPlaces = `
 A LOT
 AADAMPUR
@@ -11347,16 +11345,12 @@ ZORAWARPUR
 
 `;
 
-    // ==========================================
-    // 4. PLACE NAME LOGIC & STRICT VALIDATION
-    // ==========================================
+     // 4. PLACE NAME LOGIC
     const placesList = document.getElementById('placesList');
-    let placesArray = []; // Store for validation
+    let placesArray = [];
 
     if (typeof rawPlaces !== 'undefined' && placesList) {
-        // Convert string to array
         placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
-        
         const fragment = document.createDocumentFragment();
         placesArray.forEach(place => {
             const option = document.createElement('option');
@@ -11366,36 +11360,28 @@ ZORAWARPUR
         placesList.appendChild(fragment);
     }
 
-    // --- STRICT VALIDATION FUNCTION ---
+    // Strict Place Validation
     function validatePlaceInput(inputId) {
         const input = document.getElementById(inputId);
         if(!input) return;
-
         input.addEventListener('change', function() {
             const val = this.value.toUpperCase().trim();
-            // Allow empty (if optional) OR must match list
             if (val !== "" && !placesArray.includes(val)) {
                 alert("Type Correct Spelling Of Place (Select from List)");
-                this.value = ""; // Clear invalid input
+                this.value = "";
                 this.focus();
             }
         });
     }
-
-    // Apply Validation to all Place Inputs
-    validatePlaceInput('h_place');      // Horoscope
-    validatePlaceInput('m_g_place');    // Match Groom
-    validatePlaceInput('m_b_place');    // Match Bride
+    validatePlaceInput('h_place');
+    validatePlaceInput('m_g_place');
+    validatePlaceInput('m_b_place');
 
 
-    // ==========================================
-    // 5. MODAL LOGIC (OPEN / CLOSE)
-    // ==========================================
+    // 5. MODAL LOGIC
     const modal = document.getElementById('ServiceModal');
-
     window.openModal = function(serviceType) {
         modal.style.display = 'flex'; 
-
         const horoForm = document.getElementById('HoroscopeForm');
         const matchForm = document.getElementById('MatchMakingForm');
         const msgBox = document.getElementById('ConstructionMessage');
@@ -11404,7 +11390,6 @@ ZORAWARPUR
         horoForm.style.display = 'none';
         matchForm.style.display = 'none';
         msgBox.style.display = 'none';
-
         document.querySelectorAll('.svc-btn').forEach(btn => btn.classList.remove('active'));
 
         if (serviceType === 'Horoscope') {
@@ -11416,18 +11401,10 @@ ZORAWARPUR
             if(msgTitle) msgTitle.innerText = serviceType;
         }
     };
+    window.closeModal = function() { modal.style.display = 'none'; };
+    window.onclick = function(event) { if (event.target == modal) closeModal(); };
 
-    window.closeModal = function() {
-        modal.style.display = 'none';
-    };
-
-    window.onclick = function(event) {
-        if (event.target == modal) closeModal();
-    };
-
-    // ==========================================
-    // 6. SUBMIT LOGIC (HOROSCOPE)
-    // ==========================================
+    // 6. SUBMIT (HOROSCOPE)
     const horoForm = document.getElementById('HoroscopeForm');
     if (horoForm) {
         horoForm.addEventListener('submit', e => {
@@ -11438,16 +11415,14 @@ ZORAWARPUR
             msg.innerText = "Verifying Credentials...";
             msg.style.color = "blue";
             btn.disabled = true;
-            btn.innerText = "Processing...";
 
             let data = {
                 ServiceType: "Horoscope",
-                IsAstrologer: true, 
-                
+                IsAstrologer: true,
                 AstroMobile: document.getElementById('astroMobile_h').value,
                 FooterText: document.getElementById('astroFooter_h').value,
                 UserPassword: document.getElementById('h_password').value,
-
+                
                 ReportLanguage: document.getElementById('h_report_lang').value, 
                 Name: document.getElementById('h_name').value.toUpperCase(),
                 Gender: document.getElementById('h_gender').value,
@@ -11481,9 +11456,7 @@ ZORAWARPUR
         });
     }
 
-    // ==========================================
-    // 7. SUBMIT LOGIC (MATCH MAKING)
-    // ==========================================
+    // 7. SUBMIT (MATCH MAKING)
     const matchForm = document.getElementById('MatchMakingForm');
     if (matchForm) {
         matchForm.addEventListener('submit', e => {
@@ -11494,12 +11467,10 @@ ZORAWARPUR
             msg.innerText = "Verifying Credentials...";
             msg.style.color = "blue";
             btn.disabled = true;
-            btn.innerText = "Processing...";
 
             let data = {
                 ServiceType: "MatchMaking",
                 IsAstrologer: true,
-                
                 AstroMobile: document.getElementById('astroMobile_m').value,
                 FooterText: document.getElementById('astroFooter_m').value,
                 UserPassword: document.getElementById('m_password').value,

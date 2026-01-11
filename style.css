@@ -1,14 +1,10 @@
 /* =========================================
    1. GLOBAL RESET & BODY
    ========================================= */
-* { 
-    box-sizing: border-box; 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-}
+* { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
 body { 
-    margin: 0; 
-    padding: 0; 
+    margin: 0; padding: 0; 
     background: #f4f1ea; 
     height: 100vh; 
     display: flex; 
@@ -19,14 +15,9 @@ body {
    2. TOP BAR
    ========================================= */
 .top-bar { 
-    background: #4a3b2a; 
-    color: #fff; 
-    padding: 10px 20px; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    flex-shrink: 0; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    background: #4a3b2a; color: #fff; padding: 10px 20px; 
+    display: flex; justify-content: space-between; align-items: center; 
+    flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .logo-area { font-size: 20px; font-weight: bold; letter-spacing: 1px; }
@@ -34,232 +25,76 @@ body {
 .lang-area select { padding: 5px; border-radius: 4px; border: none; font-weight: bold; }
 
 /* =========================================
-   3. MAIN 3-COLUMN LAYOUT
+   3. MAIN LAYOUT & BACKGROUND IMAGE
    ========================================= */
-.main-container { 
-    display: flex; 
-    flex: 1; 
-    overflow: hidden; 
-}
+.main-container { display: flex; flex: 1; overflow: hidden; }
 
-/* LEFT PANEL (Articles) */
-.left-panel { 
-    width: 20%; 
-    background: #e8e0d5; 
-    padding: 20px; 
-    border-right: 1px solid #ccc; 
-    overflow-y: auto; 
-}
+.left-panel { width: 20%; background: #e8e0d5; padding: 20px; border-right: 1px solid #ccc; overflow-y: auto; }
+.right-panel { width: 40%; padding: 20px; background: #fdfdfd; border-left: 1px solid #ccc; overflow-y: auto; }
 
-/* CENTER PANEL (Info/Logo/Background) */
+/* CENTER PANEL (BACKGROUND IMAGE HERE) */
 .center-panel { 
-    width: 40%; 
-    padding: 20px; 
+    width: 40%; padding: 20px; 
     text-align: center; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
+    display: flex; align-items: center; justify-content: center; 
     
-    /* *** BACKGROUND IMAGE SETTINGS *** */
-    /* You can change the URL below to your own image */
-   background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), 
-            url('background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    /* Make sure you have background.jpg in your folder */
+    background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('background.jpg');
+    background-size: cover; background-position: center; background-repeat: no-repeat;
     
-    overflow-y: auto; 
-    flex-direction: column; 
+    overflow-y: auto; flex-direction: column; 
 }
 
 .main-logo { width: 120px; height: auto; margin-bottom: 20px; }
 .contact-card { 
-    margin-top: 20px; 
-    padding: 15px; 
-    background: #fff8e1; 
-    border: 1px solid #d4c4a8; 
-    border-radius: 8px; 
-    font-weight: bold;
-}
-
-/* RIGHT PANEL (Buttons) */
-.right-panel { 
-    width: 40%; 
-    padding: 20px; 
-    background: #fdfdfd; 
-    border-left: 1px solid #ccc; 
-    overflow-y: auto; 
+    margin-top: 20px; padding: 15px; 
+    background: #fff8e1; border: 1px solid #d4c4a8; border-radius: 8px; font-weight: bold;
 }
 
 /* =========================================
-   4. BUTTONS GRID (Right Panel)
+   4. BUTTONS & FORMS
    ========================================= */
-.button-grid-frame {
-    border: 4px double #8B4513; 
-    padding: 20px; 
-    background: #fffaf0; 
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+.button-grid-frame { border: 4px double #8B4513; padding: 20px; background: #fffaf0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.buttons-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
 
-.buttons-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.big-btn {
-    padding: 25px 10px;
-    background: #8B4513; 
-    color: white;
-    border: none; 
-    border-radius: 8px;
-    font-size: 16px; 
-    font-weight: bold;
-    cursor: pointer; 
-    transition: 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-}
-
+.big-btn { padding: 25px 10px; background: #8B4513; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
 .big-btn:hover { background: #6b360d; transform: translateY(-2px); }
-.big-btn:active { transform: scale(0.98); }
 
-/* =========================================
-   5. ARTICLE LIST (Left Panel)
-   ========================================= */
 .article-list { list-style: none; padding: 0; }
-.article-list li a { 
-    display: block; 
-    padding: 12px; 
-    color: #5c4033; 
-    text-decoration: none; 
-    border-bottom: 1px solid #dcc; 
-    font-weight: 500;
-}
+.article-list li a { display: block; padding: 12px; color: #5c4033; text-decoration: none; border-bottom: 1px solid #dcc; font-weight: 500; }
 .article-list li a:hover { background: #fff; color: #8B4513; padding-left: 15px; transition: 0.2s; }
 
-/* =========================================
-   6. MODAL POPUP
-   ========================================= */
-.modal-overlay {
-    display: none; 
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.7); 
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-}
+/* MODAL */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center; }
+.modal-content { background-color: #fff; padding: 25px; border-radius: 10px; width: 95%; max-width: 550px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.3); animation: slideDown 0.3s ease-out; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+.close-modal { position: absolute; top: 10px; right: 20px; color: #888; font-size: 30px; font-weight: bold; cursor: pointer; }
 
-.modal-content {
-    background-color: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    width: 95%; 
-    max-width: 550px;
-    max-height: 90vh; 
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    animation: slideDown 0.3s ease-out;
+/* INPUTS */
+.astro-form h4 { margin-top: 0; margin-bottom: 20px; font-size: 22px; border-bottom: 2px solid #8B4513; padding-bottom: 10px; }
+.astro-form input[type="text"], .astro-form input[type="email"], .astro-form input[type="tel"], .astro-form input[type="date"], .astro-form input[type="time"], .astro-form select { 
+    width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; text-transform: uppercase; 
 }
-
-@keyframes slideDown { 
-    from { opacity: 0; transform: translateY(-30px); } 
-    to { opacity: 1; transform: translateY(0); } 
-}
-
-.close-modal {
-    position: absolute; top: 10px; right: 20px;
-    color: #888; font-size: 30px; font-weight: bold; cursor: pointer;
-}
-.close-modal:hover { color: #d9534f; }
-
-/* =========================================
-   7. FORM ELEMENTS
-   ========================================= */
-.astro-form h4 { 
-    margin-top: 0; margin-bottom: 20px; font-size: 22px; 
-    border-bottom: 2px solid #8B4513; padding-bottom: 10px; 
-}
-
-.astro-form input[type="text"],
-.astro-form input[type="email"],
-.astro-form input[type="tel"],
-.astro-form input[type="date"],
-.astro-form input[type="time"],
-.astro-form select { 
-    width: 100%; 
-    padding: 12px; 
-    margin-bottom: 12px; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
-    font-size: 14px;
-    /* Force Uppercase display (User types 'a', sees 'A') */
-    text-transform: uppercase; 
-}
-
-.astro-form input:focus, .astro-form select:focus {
-    border-color: #8B4513;
-    outline: none;
-    box-shadow: 0 0 5px rgba(139, 69, 19, 0.2);
-}
-
-.submit-btn { 
-    width: 100%; 
-    padding: 12px; 
-    background: #28a745; 
-    color: white; 
-    border: none; 
-    font-size: 18px; 
-    font-weight: bold;
-    cursor: pointer; 
-    border-radius: 4px; 
-    margin-top: 15px; 
-    transition: background 0.3s;
-    text-transform: uppercase;
-}
+.submit-btn { width: 100%; padding: 12px; background: #28a745; color: white; border: none; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 4px; margin-top: 15px; transition: background 0.3s; text-transform: uppercase; }
 .submit-btn:hover { background: #218838; }
 .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-.status-msg { text-align: center; font-weight: bold; margin-top: 10px; min-height: 20px; }
-
-.construction-box { text-align: center; padding: 40px 10px; }
-.ok-btn { 
-    padding: 8px 25px; 
-    background: #007bff; 
-    color: white; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    margin-top: 15px; 
-    font-size: 16px;
-}
-
-/* =========================================
-   8. MATCH MAKING LAYOUT
-   ========================================= */
+/* MATCH MAKING */
 .split-container { display: flex; gap: 15px; margin-bottom: 15px; }
 .split-box { flex: 1; padding: 10px; border: 1px solid #e0e0e0; border-radius: 5px; background: #fbfbfb; }
 .groom-box { border-top: 4px solid #007bff; }
 .bride-box { border-top: 4px solid #e83e8c; }
 .split-box h5 { text-align: center; margin: 0 0 10px 0; font-size: 16px; color: #333; }
+.construction-box { text-align: center; padding: 40px 10px; }
+.ok-btn { padding: 8px 25px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; font-size: 16px; }
 
-/* =========================================
-   9. MOBILE RESPONSIVENESS
-   ========================================= */
+/* MOBILE */
 @media (max-width: 768px) {
     .main-container { flex-direction: column; overflow-y: auto; }
-    
-    .left-panel, .center-panel, .right-panel { 
-        width: 100%; border: none; height: auto; padding: 15px; 
-    }
-    
-    /* Reorder for Mobile: Logo(Background) First, Buttons Second, Articles Last */
-    .center-panel { order: 1; border-bottom: 5px solid #8B4513; height: 300px; /* Specific height for mobile image */ }
+    .left-panel, .center-panel, .right-panel { width: 100%; border: none; height: auto; padding: 15px; }
+    .center-panel { order: 1; border-bottom: 5px solid #8B4513; background: #fffaf0; }
     .right-panel { order: 2; }
     .left-panel { order: 3; }
-
     .buttons-grid { grid-template-columns: 1fr; }
     .split-container { flex-direction: column; }
     .modal-content { width: 95%; margin: 5% auto; padding: 15px; }
