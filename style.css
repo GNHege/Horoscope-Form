@@ -51,7 +51,7 @@ body {
     overflow-y: auto; 
 }
 
-/* CENTER PANEL (Info/Logo) */
+/* CENTER PANEL (Info/Logo/Background) */
 .center-panel { 
     width: 40%; 
     padding: 20px; 
@@ -59,7 +59,15 @@ body {
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    background: #fff; 
+    
+    /* *** BACKGROUND IMAGE SETTINGS *** */
+    /* You can change the URL below to your own image */
+   background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), 
+            url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
     overflow-y: auto; 
     flex-direction: column; 
 }
@@ -71,6 +79,7 @@ body {
     background: #fff8e1; 
     border: 1px solid #d4c4a8; 
     border-radius: 8px; 
+    font-weight: bold;
 }
 
 /* RIGHT PANEL (Buttons) */
@@ -174,7 +183,6 @@ body {
     border-bottom: 2px solid #8B4513; padding-bottom: 10px; 
 }
 
-/* Universal Input Styling */
 .astro-form input[type="text"],
 .astro-form input[type="email"],
 .astro-form input[type="tel"],
@@ -187,6 +195,8 @@ body {
     border: 1px solid #ccc; 
     border-radius: 4px; 
     font-size: 14px;
+    /* Force Uppercase display (User types 'a', sees 'A') */
+    text-transform: uppercase; 
 }
 
 .astro-form input:focus, .astro-form select:focus {
@@ -195,7 +205,6 @@ body {
     box-shadow: 0 0 5px rgba(139, 69, 19, 0.2);
 }
 
-/* Submit Button */
 .submit-btn { 
     width: 100%; 
     padding: 12px; 
@@ -208,14 +217,13 @@ body {
     border-radius: 4px; 
     margin-top: 15px; 
     transition: background 0.3s;
+    text-transform: uppercase;
 }
 .submit-btn:hover { background: #218838; }
 .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-/* Status Messages */
 .status-msg { text-align: center; font-weight: bold; margin-top: 10px; min-height: 20px; }
 
-/* Construction Box */
 .construction-box { text-align: center; padding: 40px 10px; }
 .ok-btn { 
     padding: 8px 25px; 
@@ -229,59 +237,30 @@ body {
 }
 
 /* =========================================
-   8. SPECIAL LAYOUTS (Match Making, Astro, Password)
+   8. MATCH MAKING LAYOUT
    ========================================= */
-
-/* Split Box for Groom/Bride */
-.split-container { 
-    display: flex; 
-    gap: 15px; 
-    margin-bottom: 15px; 
-}
-
-.split-box { 
-    flex: 1; 
-    padding: 10px; 
-    border: 1px solid #e0e0e0; 
-    border-radius: 5px; 
-    background: #fbfbfb; 
-}
-
+.split-container { display: flex; gap: 15px; margin-bottom: 15px; }
+.split-box { flex: 1; padding: 10px; border: 1px solid #e0e0e0; border-radius: 5px; background: #fbfbfb; }
 .groom-box { border-top: 4px solid #007bff; }
 .bride-box { border-top: 4px solid #e83e8c; }
-
-.split-box h5 { 
-    text-align: center; 
-    margin: 0 0 10px 0; 
-    font-size: 16px; 
-    color: #333; 
-}
+.split-box h5 { text-align: center; margin: 0 0 10px 0; font-size: 16px; color: #333; }
 
 /* =========================================
    9. MOBILE RESPONSIVENESS
    ========================================= */
 @media (max-width: 768px) {
-    /* Stack the main columns */
     .main-container { flex-direction: column; overflow-y: auto; }
     
     .left-panel, .center-panel, .right-panel { 
-        width: 100%; 
-        border: none; 
-        height: auto; 
-        padding: 15px; 
+        width: 100%; border: none; height: auto; padding: 15px; 
     }
     
-    /* Reorder: Logo First, Buttons Second, Articles Last */
-    .center-panel { order: 1; border-bottom: 5px solid #8B4513; background: #fffaf0; }
+    /* Reorder for Mobile: Logo(Background) First, Buttons Second, Articles Last */
+    .center-panel { order: 1; border-bottom: 5px solid #8B4513; height: 300px; /* Specific height for mobile image */ }
     .right-panel { order: 2; }
     .left-panel { order: 3; }
 
-    /* Single column buttons on mobile */
     .buttons-grid { grid-template-columns: 1fr; }
-    
-    /* Stack Groom/Bride vertically on mobile */
     .split-container { flex-direction: column; }
-    
-    /* Adjust modal width */
     .modal-content { width: 95%; margin: 5% auto; padding: 15px; }
 }

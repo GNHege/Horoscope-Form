@@ -10,15 +10,13 @@ document.addEventListener('DOMContentLoaded', function () {
         "9606324384",
         "9886980580",
         "9632919459",
-        "9480477671"
+        "9480477671",
+        "7795522945"
     ];
 
-    // UPDATED: Checks Astrologer Mobile Input to Unlock Password
     window.checkAccess = function(type) {
-        // type is 'h' (Horoscope) or 'm' (MatchMaking)
         const phoneInput = document.getElementById('astroMobile_' + type).value;
         const passInput = document.getElementById(type + '_password');
-        
         const cleanNumber = phoneInput.replace(/[^0-9]/g, '');
 
         if (AUTHORIZED_NUMBERS.includes(cleanNumber)) {
@@ -11349,12 +11347,16 @@ ZORAWARPUR
 
 `;
 
-   // ==========================================
-    // 4. PLACE NAME LOGIC
+    // ==========================================
+    // 4. PLACE NAME LOGIC & STRICT VALIDATION
     // ==========================================
     const placesList = document.getElementById('placesList');
+    let placesArray = []; // Store for validation
+
     if (typeof rawPlaces !== 'undefined' && placesList) {
-        const placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
+        // Convert string to array
+        placesArray = rawPlaces.split('\n').map(p => p.trim()).filter(p => p.length > 0);
+        
         const fragment = document.createDocumentFragment();
         placesArray.forEach(place => {
             const option = document.createElement('option');
@@ -11363,6 +11365,28 @@ ZORAWARPUR
         });
         placesList.appendChild(fragment);
     }
+
+    // --- STRICT VALIDATION FUNCTION ---
+    function validatePlaceInput(inputId) {
+        const input = document.getElementById(inputId);
+        if(!input) return;
+
+        input.addEventListener('change', function() {
+            const val = this.value.toUpperCase().trim();
+            // Allow empty (if optional) OR must match list
+            if (val !== "" && !placesArray.includes(val)) {
+                alert("Type Correct Spelling Of Place (Select from List)");
+                this.value = ""; // Clear invalid input
+                this.focus();
+            }
+        });
+    }
+
+    // Apply Validation to all Place Inputs
+    validatePlaceInput('h_place');      // Horoscope
+    validatePlaceInput('m_g_place');    // Match Groom
+    validatePlaceInput('m_b_place');    // Match Bride
+
 
     // ==========================================
     // 5. MODAL LOGIC (OPEN / CLOSE)
@@ -11418,23 +11442,21 @@ ZORAWARPUR
 
             let data = {
                 ServiceType: "Horoscope",
-                IsAstrologer: true, // ALWAYS TRUE
+                IsAstrologer: true, 
                 
-                // Credentials
                 AstroMobile: document.getElementById('astroMobile_h').value,
-                FooterText: document.getElementById('astroFooter_h').value, // Can be empty (Optional)
+                FooterText: document.getElementById('astroFooter_h').value,
                 UserPassword: document.getElementById('h_password').value,
 
-                // Form Data
                 ReportLanguage: document.getElementById('h_report_lang').value, 
-                Name: document.getElementById('h_name').value,
+                Name: document.getElementById('h_name').value.toUpperCase(),
                 Gender: document.getElementById('h_gender').value,
-                FatherName: document.getElementById('h_father').value,
-                MotherName: document.getElementById('h_mother').value,
-                Gothra: document.getElementById('h_gotra').value,
+                FatherName: document.getElementById('h_father').value.toUpperCase(),
+                MotherName: document.getElementById('h_mother').value.toUpperCase(),
+                Gothra: document.getElementById('h_gotra').value.toUpperCase(),
                 DoB: document.getElementById('h_dob').value,
                 ToB: document.getElementById('h_tob').value,
-                PoB: document.getElementById('h_place').value,
+                PoB: document.getElementById('h_place').value.toUpperCase(),
                 Email: document.getElementById('h_email').value,
                 PhoneNumber: document.getElementById('h_phone').value,
                 LanguagePreference: document.getElementById('globalLang').value,
@@ -11476,22 +11498,20 @@ ZORAWARPUR
 
             let data = {
                 ServiceType: "MatchMaking",
-                IsAstrologer: true, // ALWAYS TRUE
+                IsAstrologer: true,
                 
-                // Credentials
                 AstroMobile: document.getElementById('astroMobile_m').value,
-                FooterText: document.getElementById('astroFooter_m').value, // Can be empty
+                FooterText: document.getElementById('astroFooter_m').value,
                 UserPassword: document.getElementById('m_password').value,
 
-                // Match Data
-                GroomName: document.getElementById('m_g_name').value,
+                GroomName: document.getElementById('m_g_name').value.toUpperCase(),
                 GroomDoB: document.getElementById('m_g_dob').value,
                 GroomToB: document.getElementById('m_g_tob').value,
-                GroomPlace: document.getElementById('m_g_place').value,
-                BrideName: document.getElementById('m_b_name').value,
+                GroomPlace: document.getElementById('m_g_place').value.toUpperCase(),
+                BrideName: document.getElementById('m_b_name').value.toUpperCase(),
                 BrideDoB: document.getElementById('m_b_dob').value,
                 BrideToB: document.getElementById('m_b_tob').value,
-                BridePlace: document.getElementById('m_b_place').value,
+                BridePlace: document.getElementById('m_b_place').value.toUpperCase(),
                 Email: document.getElementById('m_email').value,
                 PhoneNumber: document.getElementById('m_phone').value,
                 LanguagePreference: document.getElementById('globalLang').value,
