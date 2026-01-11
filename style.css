@@ -14,32 +14,32 @@ body {
    2. TOP BAR
    ========================================= */
 .top-bar { 
-    background: #4a3b2a; color: #fff; padding: 10px 20px; 
+    background: #4a3b2a; color: #fff; padding: 8px 20px; 
     display: flex; justify-content: space-between; align-items: center; 
     flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
-.logo-area { font-size: 20px; font-weight: bold; letter-spacing: 1px; }
-.lang-area label { margin-right: 10px; font-weight: 500; }
-.lang-area select { padding: 5px; border-radius: 4px; border: none; font-weight: bold; }
+.logo-area { font-size: 18px; font-weight: bold; letter-spacing: 1px; }
+.lang-area label { margin-right: 10px; font-weight: 500; font-size: 14px; }
+.lang-area select { padding: 3px; border-radius: 4px; border: none; font-weight: bold; font-size: 14px; }
 
 /* =========================================
    3. MAIN LAYOUT
    ========================================= */
 .main-container { display: flex; flex: 1; overflow: hidden; }
-.left-panel { width: 20%; background: #e8e0d5; padding: 20px; border-right: 1px solid #ccc; overflow-y: auto; }
+.left-panel { width: 20%; background: #e8e0d5; padding: 15px; border-right: 1px solid #ccc; overflow-y: auto; }
 .right-panel { width: 40%; padding: 20px; background: #fdfdfd; border-left: 1px solid #ccc; overflow-y: auto; }
 
 /* CENTER PANEL - BACKGROUND IMAGE SETTINGS */
 .center-panel { 
     width: 40%; 
-    padding: 20px; 
+    padding: 10px; 
     text-align: center; 
     
-    /* Position elements at the TOP */
+    /* ALIGNMENT: PUSH TO TOP */
     display: flex; 
-    align-items: flex-start; 
+    align-items: flex-start; /* Aligns content to the top */
     justify-content: center; 
-    padding-top: 30px; /* Pushed to top */
+    padding-top: 10px; /* Minimal space from top bar */
     
     /* Background Image */
     background: url('background.jpg');
@@ -55,48 +55,49 @@ body {
     /* 50% Transparency */
     background-color: rgba(255, 255, 255, 0.5); 
     
-    /* Increased Width */
+    /* Width increased to 30% relative to screen (handled via max-width logic below) */
     width: 95%; 
-    max-width: 600px;
+    max-width: 650px; /* Wider box */
     
-    /* Compact Padding */
-    padding: 15px; 
+    /* Compact Padding to reduce height */
+    padding: 10px; 
     
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     margin-bottom: auto;
 }
 
-/* COMPACT ELEMENTS TO REDUCE HEIGHT */
+/* SUPER COMPACT ELEMENTS (To reduce height by 50%) */
 .main-logo { 
-    width: 60px; /* Smaller Logo */
+    width: 50px; /* Much smaller logo */
     height: auto; 
-    margin-bottom: 5px; 
+    margin-bottom: 2px; 
 }
 
 .center-content h2 {
-    margin: 2px 0; 
-    font-size: 1.2rem; /* Smaller Title */
+    margin: 0; 
+    font-size: 1.1rem; /* Smaller Title */
     color: #2e241b;
     text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+    line-height: 1.2;
 }
 
 .center-content p {
-    margin: 2px 0 10px 0;
-    font-size: 0.9rem;
+    margin: 2px 0 5px 0;
+    font-size: 0.85rem;
     font-weight: 600;
 }
 
 .contact-card { 
     margin-top: 5px; 
-    padding: 8px; /* Compact padding */
-    background: rgba(255, 248, 225, 0.8); /* Slight transparency on card too */
+    padding: 5px; /* Minimal padding */
+    background: rgba(255, 248, 225, 0.8); 
     border: 1px solid #d4c4a8; 
     border-radius: 6px; 
     font-weight: bold;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
-.contact-card p { margin: 2px 0; }
+.contact-card p { margin: 1px 0; }
 
 /* =========================================
    4. BUTTONS & FORMS
@@ -108,7 +109,7 @@ body {
 .big-btn:hover { background: #6b360d; transform: translateY(-2px); }
 
 .article-list { list-style: none; padding: 0; }
-.article-list li a { display: block; padding: 12px; color: #5c4033; text-decoration: none; border-bottom: 1px solid #dcc; font-weight: 500; }
+.article-list li a { display: block; padding: 10px; color: #5c4033; text-decoration: none; border-bottom: 1px solid #dcc; font-weight: 500; font-size: 14px; }
 .article-list li a:hover { background: #fff; color: #8B4513; padding-left: 15px; transition: 0.2s; }
 
 /* MODAL */
@@ -143,14 +144,14 @@ body {
 /* MOBILE RESPONSIVENESS */
 @media (max-width: 768px) {
     .main-container { flex-direction: column; overflow-y: auto; }
-    .left-panel, .center-panel, .right-panel { width: 100%; border: none; height: auto; padding: 15px; }
+    .left-panel, .center-panel, .right-panel { width: 100%; border: none; height: auto; padding: 10px; }
     
-    /* Mobile: Logo First, Smaller Height */
+    /* Mobile: Even smaller box */
     .center-panel { 
         order: 1; 
         border-bottom: 5px solid #8B4513; 
-        height: 250px; /* Reduced height on mobile */
-        padding-top: 20px;
+        height: 200px; /* Minimal height */
+        padding-top: 10px;
     }
     
     .right-panel { order: 2; }
