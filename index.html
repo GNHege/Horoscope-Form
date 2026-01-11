@@ -15,7 +15,7 @@
             <label>UI Language:</label>
             <select id="globalLang">
                 <option value="en">English</option>
-                <option value="kn">Kannada</option>
+                <!-- Kannada Removed as requested -->
             </select>
         </div>
     </div>
@@ -39,7 +39,7 @@
         <!-- CENTER: INFO -->
         <main class="center-panel">
             <div class="center-content">
-                <!-- LOGO IMAGE (Make sure file is named logo.png) -->
+                <!-- Ensure your logo file is named logo.png -->
                 <img src="logo.png" alt="Logo" class="main-logo" onerror="this.style.display='none'">
                 
                 <h2>Welcome To Registered Astrologers</h2>
@@ -70,27 +70,22 @@
     <!-- POPUP MODAL -->
     <div id="ServiceModal" class="modal-overlay">
         <div class="modal-content">
-            <!-- Close Button (X) -->
             <span class="close-modal" onclick="closeModal()">&times;</span>
-
-            <!-- SHARED PLACES LIST -->
             <datalist id="placesList"></datalist>
 
-            <!-- ========================================= -->
-            <!-- 1. HOROSCOPE FORM                         -->
-            <!-- ========================================= -->
+            <!-- 1. HOROSCOPE FORM -->
             <form id="HoroscopeForm" class="astro-form" style="display:none;">
                 <h4 style="text-align:center; color:#8B4513;">Janma Patrika</h4>
                 
-                <!-- ASTROLOGER DETAILS (ALWAYS VISIBLE) -->
+                <!-- ASTROLOGER DETAILS -->
                 <div style="background: #e3f2fd; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #2196F3;">
                     <label style="font-weight:bold; color:#0d47a1;">Astrologer Login:</label>
-                    <!-- Typing here unlocks the password box -->
                     <input type="tel" id="astroMobile_h" placeholder="Reg. Mobile Number (Unlocks Password)" onkeyup="checkAccess('h')" style="margin-bottom:5px;" required>
                     <input type="text" id="astroFooter_h" maxlength="100" placeholder="Astrologers (Name, Place, Phone)" oninput="this.value = this.value.toUpperCase()">
+                    <small style="color: #0d47a1; display:block; font-size: 11px;">* This text will appear on the PDF Footer</small>
                 </div>
 
-                <!-- REPORT LANGUAGE SELECTION -->
+                <!-- REPORT LANGUAGE -->
                 <div class="form-group" style="background-color: #f0f8ff; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px;">
                     <label style="font-weight:bold; color:#000;">Select Report Language:</label>
                     <select id="h_report_lang" required style="font-weight:bold;">
@@ -107,41 +102,36 @@
                     </select>
                 </div>
 
-                <!-- STANDARD INPUTS (UPPERCASE ENFORCED) -->
                 <div class="form-group"><input type="text" id="h_name" placeholder="Name" required oninput="this.value = this.value.toUpperCase()"></div>
                 <div class="form-group"><select id="h_gender"><option value="Male">Male</option><option value="Female">Female</option></select></div>
                 <input type="text" id="h_father" placeholder="Father's Name" oninput="this.value = this.value.toUpperCase()">
                 <input type="text" id="h_mother" placeholder="Mother's Name" oninput="this.value = this.value.toUpperCase()">
                 <input type="text" id="h_gotra" placeholder="Gotra" oninput="this.value = this.value.toUpperCase()">
-                
                 <label style="font-size:12px; font-weight:bold;">Date of Birth:</label>
                 <input type="date" id="h_dob" required>
                 <label style="font-size:12px; font-weight:bold;">Time of Birth:</label>
                 <input type="time" id="h_tob" required>
-                
                 <input type="text" id="h_place" list="placesList" placeholder="Place of Birth (Nearest Taluk Name Or Popular Place Name)" required oninput="this.value = this.value.toUpperCase()">
                 
                 <hr>
                 <input type="email" id="h_email" placeholder="Email Address" required>
                 <input type="tel" id="h_phone" placeholder="Mobile Number">
                 
-                <!-- PASSWORD FIELD (LOCKED) -->
+                <!-- PASSWORD FIELD (Mixed Case Allowed) -->
                 <div class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-top: 10px; margin-bottom: 10px;">
                     <label style="color: red; font-weight: bold;">Enter Access Code:</label>
-                    <input type="text" id="h_password" placeholder="Enter Reg. Mobile Above First" disabled required>
+                    <!-- NOTE: Removed oninput uppercase enforcement here -->
+                    <input type="text" id="h_password" class="password-input" placeholder="Enter Reg. Mobile Above First" disabled required>
                 </div>
 
                 <button type="submit" class="submit-btn">Generate Horoscope</button>
                 <div id="statusMessage" class="status-msg"></div>
             </form>
 
-            <!-- ========================================= -->
-            <!-- 2. MATCH MAKING FORM                      -->
-            <!-- ========================================= -->
+            <!-- 2. MATCH MAKING FORM -->
             <form id="MatchMakingForm" class="astro-form" style="display:none;">
                 <h4 style="text-align:center; color:#8B4513;">Match Making</h4>
                 
-                <!-- ASTROLOGER DETAILS (ALWAYS VISIBLE) -->
                 <div style="background: #e3f2fd; padding: 10px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #2196F3;">
                     <label style="font-weight:bold; color:#0d47a1;">Astrologer Login:</label>
                     <input type="tel" id="astroMobile_m" placeholder="Reg. Mobile Number (Unlocks Password)" onkeyup="checkAccess('m')" style="margin-bottom:5px;" required>
@@ -170,17 +160,16 @@
                 <input type="email" id="m_email" placeholder="Email Address" required>
                 <input type="tel" id="m_phone" placeholder="Mobile Number">
 
-                <!-- PASSWORD FIELD (LOCKED) -->
+                <!-- PASSWORD FIELD (Mixed Case Allowed) -->
                 <div class="form-group" style="background: #ffe6e6; padding: 10px; border-radius: 5px; border: 1px dashed red; margin-top: 10px; margin-bottom: 10px;">
                     <label style="color: red; font-weight: bold;">Enter Access Code:</label>
-                    <input type="text" id="m_password" placeholder="Enter Reg. Mobile Above First" disabled required>
+                    <input type="text" id="m_password" class="password-input" placeholder="Enter Reg. Mobile Above First" disabled required>
                 </div>
 
                 <button type="submit" class="submit-btn">Check Match</button>
                 <div id="matchStatusMessage" class="status-msg"></div>
             </form>
 
-            <!-- 3. UNDER CONSTRUCTION MESSAGE -->
             <div id="ConstructionMessage" class="construction-box" style="display:none;">
                 <div style="font-size: 50px;">🚧</div>
                 <h4 id="constructionTitle">Service</h4>
