@@ -8,8 +8,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
     const AUTHORIZED_NUMBERS = [
         "9606324384",
-        "9876543210",
-        "9988776655"
+        "9886980580",
+        "9632919459",
+        "9480477671",
+        "7795522945"
     ];
 
     // UNLOCK PASSWORD LOGIC
