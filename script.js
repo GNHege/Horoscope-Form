@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
         "9480477671",
         "7795522945",
         "9650003044",
-        "9449321895"
+        "9449321895",
+        "9448965366"
     ];
 
     // UNLOCK PASSWORD LOGIC
